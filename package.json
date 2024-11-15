@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.4.8",
+    "@privy-io/react-auth": "^1.94.2",
     "@worldcoin/minikit-js": "0.0.27-internal-alpha",
     "eruda": "^3.2.3",
+    "framer-motion": "^11.11.17",
     "next": "14.2.6",
     "next-auth": "^4.24.7",
     "react": "^18",
