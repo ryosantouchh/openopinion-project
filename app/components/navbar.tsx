@@ -21,14 +21,10 @@ import { cn } from "@nextui-org/react";
 import { AcmeIcon } from "./acme";
 
 const menuItems = [
-    "About",
-    "Blog",
-    "Customers",
-    "Pricing",
-    "Enterprise",
-    "Changelog",
-    "Documentation",
-    "Contact Us",
+    {
+        label: "Companies",
+        href: "/companies",
+    }
 ];
 
 export default function Component(props: NavbarProps) {
@@ -53,34 +49,16 @@ export default function Component(props: NavbarProps) {
                 <div className="rounded-full bg-foreground text-background">
                     <AcmeIcon size={34} />
                 </div>
-                <span className="ml-2 text-small font-medium">ACME</span>
+                <Link className="ml-2 text-small font-medium text-foreground" href="/" size="md">
+                    OpenOpinions
+                </Link>
             </NavbarBrand>
 
             {/* Center Content */}
             <NavbarContent justify="center">
                 <NavbarItem>
                     <Link className="text-default-500" href="#" size="sm">
-                        Home
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link className="text-default-500" href="#" size="sm">
-                        Features
-                    </Link>
-                </NavbarItem>
-                <NavbarItem isActive>
-                    <Link aria-current="page" color="foreground" href="#" size="sm">
-                        Customers
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link className="text-default-500" href="#" size="sm">
-                        About Us
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link className="text-default-500" href="#" size="sm">
-                        Integrations
+                        Companies
                     </Link>
                 </NavbarItem>
             </NavbarContent>
@@ -118,8 +96,8 @@ export default function Component(props: NavbarProps) {
                 </NavbarMenuItem>
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link className="mb-2 w-full text-default-500" href="#" size="md">
-                            {item}
+                        <Link className="mb-2 w-full text-default-500" href={item.href} size="md">
+                            {item.label}
                         </Link>
                         {index < menuItems.length - 1 && <Divider className="opacity-50" />}
                     </NavbarMenuItem>

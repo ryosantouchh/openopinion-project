@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@iconify/react": "^5.0.2",
     "@nextui-org/react": "^2.4.8",
     "@privy-io/react-auth": "^1.94.2",
     "@worldcoin/minikit-js": "0.0.27-internal-alpha",

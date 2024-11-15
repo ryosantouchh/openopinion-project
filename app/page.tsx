@@ -2,6 +2,7 @@ import { PayBlock } from "@/components/Pay";
 import { SignIn } from "@/components/SignIn";
 import { VerifyBlock } from "@/components/Verify";
 import { Button } from "@nextui-org/button";
+import CompanyCard from "./components/companyCard";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <VerifyBlock />
       <PayBlock />
       <Button>Click me</Button>
+      <CompanyCard />
     </main>
   );
 }
