@@ -11,7 +11,6 @@ export default function Home() {
       <VerifyBlock />
       <PayBlock />
       <Button>Click me</Button>
-      <CompanyCard />
     </main>
   );
 }
