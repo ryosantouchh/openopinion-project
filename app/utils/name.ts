@@ -13,3 +13,7 @@ export function obscureName(name: string): string {
         return first_part + middle_part + last_part
     }
 }
+
+export function getImageUrl(address: string): string {
+    return `https://api.dicebear.com/9.x/adventurer/svg?seed=/${address}`
+}

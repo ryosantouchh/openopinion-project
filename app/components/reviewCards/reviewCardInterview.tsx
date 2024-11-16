@@ -22,7 +22,7 @@ export type ReviewInterviewProps = React.HTMLAttributes<HTMLDivElement> & Review
 
 export const ReviewCardInterview = React.forwardRef<HTMLDivElement, ReviewInterviewProps>(
     ({ children, user, title, content, createdAt, difficulty, id, ...props }, ref) => (
-        <Link href={`/reviews/interviews/${id}`}>
+        <Link href={`/reviews/interview/${id}`}>
             <div ref={ref} {...props} className="border-b pb-4 mb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
