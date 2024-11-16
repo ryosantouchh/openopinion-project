@@ -3,6 +3,8 @@ import { SignIn } from "@/components/SignIn";
 import { VerifyBlock } from "@/components/Verify";
 import { Button } from "@nextui-org/button";
 import { usePrivy } from "@privy-io/react-auth";
+import CompanyCard from "./components/companyCard";
+import TestComponent from "./test/page";
 
 export default function Home() {
   const { getAccessToken } = usePrivy();
