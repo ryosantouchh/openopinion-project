@@ -10,15 +10,19 @@
   },
   "dependencies": {
     "@iconify/react": "^5.0.2",
+    "@lighthouse-web3/sdk": "^0.3.7",
     "@nextui-org/react": "^2.4.8",
     "@privy-io/react-auth": "^1.94.2",
-    "@worldcoin/minikit-js": "0.0.27-internal-alpha",
+    "@worldcoin/minikit-js": "1.1.1",
+    "@worldcoin/minikit-react": "^1.2.0",
+    "axios": "^1.7.7",
     "eruda": "^3.2.3",
     "framer-motion": "^11.11.17",
     "next": "14.2.6",
     "next-auth": "^4.24.7",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
