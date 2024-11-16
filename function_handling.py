@@ -42,17 +42,23 @@ def handle_overviews(company: str, position: str):
     combined_txt = ""
     avg_rating = 0
     count = 0
-    for document in documents:
-        position_score = fuzz.partial_ratio(
-            document["review"]["position"].lower(), position.lower()
-        )
-        company_score = fuzz.partial_ratio(document["company"].lower(), company.lower())
+    # if the position is all matching only company's
+    if position == 'all':
+        for document in documents:
+            company_score = fuzz.partial_ratio(document["company"].lower(), company.lower())
+            if company_score >= threshold:
+                combined_txt += document["review"]["content"] + "\n"
+                avg_rating += float(document["review"]["rating"])
+                count += 1
 
-        if position_score >= threshold and company_score >= threshold:
-
-            combined_txt += document["review"]["content"] + "\n"
-            avg_rating += float(document["review"]["rating"])
-            count += 1
+    else:
+        for document in documents:
+          position_score = fuzz.partial_ratio(document["review"]["position"].lower(), position.lower())
+          company_score = fuzz.partial_ratio(document["company"].lower(), company.lower())
+          if position_score >= threshold and company_score >= threshold:
+              combined_txt += document["review"]["content"] + "\n"
+              avg_rating += float(document["review"]["rating"])
+              count += 1
 
     if len(combined_txt) > 0:
         avg_rating = avg_rating / count
