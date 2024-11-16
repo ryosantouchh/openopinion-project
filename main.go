@@ -46,7 +46,11 @@ func main() {
 	server := echo.New()
 	server.Use(mw.HealthCheck())
 	server.Use(mw.NewLoggerWithRequestId(logger))
-	server.GET("/api/v1/company", reviewHandler.GetAllCompany)
+	server.GET(cfg.HttpServer.Path.GetAllCompany, reviewHandler.GetAllCompany)
+	server.GET(cfg.HttpServer.Path.GetOverView, reviewHandler.GetReviewByOverview)
+	server.GET(cfg.HttpServer.Path.GetSalary, reviewHandler.GetReviewBySalary)
+	server.GET(cfg.HttpServer.Path.GetBenefit, reviewHandler.GetReviewByBenefit)
+	server.GET(cfg.HttpServer.Path.GetInterview, reviewHandler.GetReviewByInterview)
 
 	go func() {
 		err := server.Start(":" + cfg.HttpServer.Port)

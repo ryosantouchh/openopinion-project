@@ -9,7 +9,11 @@ import (
 )
 
 type Storager interface {
-	GetAllCompany(ctx context.Context) ([]ByCompany, error)
+	GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCompany, error)
+	GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error)
+	GetReviewBySalary(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Salary, error)
+	GetReviewByBenefit(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Benefit, error)
+	GetReviewByInterview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Interview, error)
 }
 
 type service struct {
@@ -22,10 +26,10 @@ func NewService(storage Storager) *service {
 	}
 }
 
-func (s *service) GetAllCompany(ctx context.Context) ([]ByCompany, error) {
+func (s *service) GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCompany, error) {
 	logger := app.GetLoggerFromCtx(ctx)
 	logger.Info("Get all company")
-	companyList, err := s.storage.GetAllCompany(ctx)
+	companyList, err := s.storage.GetAllCompany(ctx, pgSize, pgNum)
 	if err != nil {
 		logger.Error("Failed to get all company", zap.Error(err))
 		return nil, err
@@ -56,4 +60,88 @@ func calRating(totalCount int, totalScore float32) float32 {
 	result := float32(math.Round(float64(average)*2) / 2)
 
 	return result
+}
+
+func (s *service) GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error) {
+	logger := app.GetLoggerFromCtx(ctx)
+	logger.Info("Get review by overview", zap.String("companyDomain", companyDomain), zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum))
+
+	reviews, err := s.storage.GetReviewByOverview(ctx, companyDomain, pgSize, pgNum)
+	if err != nil {
+		logger.Error("Failed to get review by overview", zap.Error(err))
+		return nil, err
+	}
+
+	// Pagination
+	start := (pgNum - 1) * pgSize
+	end := pgNum * pgSize
+	if end > len(reviews) {
+		end = len(reviews)
+	}
+
+	logger.Debug("Get review by overview success")
+	return reviews[start:end], nil
+}
+
+func (s *service) GetReviewBySalary(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Salary, error) {
+	logger := app.GetLoggerFromCtx(ctx)
+	logger.Info("Get review by salary", zap.String("companyDomain", companyDomain), zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum))
+
+	reviews, err := s.storage.GetReviewBySalary(ctx, companyDomain, pgSize, pgNum)
+	if err != nil {
+		logger.Error("Failed to get review by salary", zap.Error(err))
+		return nil, err
+	}
+
+	// Pagination
+	start := (pgNum - 1) * pgSize
+	end := pgNum * pgSize
+	if end > len(reviews) {
+		end = len(reviews)
+	}
+
+	logger.Debug("Get review by salary success")
+	return reviews[start:end], nil
+}
+
+func (s *service) GetReviewByBenefit(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Benefit, error) {
+	logger := app.GetLoggerFromCtx(ctx)
+	logger.Info("Get review by benefit", zap.String("companyDomain", companyDomain), zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum))
+
+	reviews, err := s.storage.GetReviewByBenefit(ctx, companyDomain, pgSize, pgNum)
+	if err != nil {
+		logger.Error("Failed to get review by benefit", zap.Error(err))
+		return nil, err
+	}
+
+	// Pagination
+	start := (pgNum - 1) * pgSize
+	end := pgNum * pgSize
+	if end > len(reviews) {
+		end = len(reviews)
+	}
+
+	logger.Debug("Get review by benefit success")
+	return reviews[start:end], nil
+}
+
+func (s *service) GetReviewByInterview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Interview, error) {
+	logger := app.GetLoggerFromCtx(ctx)
+	logger.Info("Get review by interview", zap.String("companyDomain", companyDomain), zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum))
+
+	reviews, err := s.storage.GetReviewByInterview(ctx, companyDomain, pgSize, pgNum)
+	if err != nil {
+		logger.Error("Failed to get review by interview", zap.Error(err))
+		return nil, err
+	}
+
+	// Pagination
+	start := (pgNum - 1) * pgSize
+	end := pgNum * pgSize
+	if end > len(reviews) {
+		end = len(reviews)
+	}
+
+	logger.Debug("Get review by interview success")
+	return reviews[start:end], nil
 }

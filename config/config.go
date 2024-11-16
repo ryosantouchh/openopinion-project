@@ -26,7 +26,11 @@ type HttpServer struct {
 	Path            HttpServerPath
 }
 type HttpServerPath struct {
-	Review string `env:"HTTP_SERVER_PATH_REVIEW" envDefault:"/review"`
+	GetAllCompany string `env:"HTTP_SERVER_PATH_GET_ALL_COMPANY" envDefault:"/api/v1/company"`
+	GetOverView   string `env:"HTTP_SERVER_PATH_GET_OVERVIEW" envDefault:"/api/v1/overview"`
+	GetSalary     string `env:"HTTP_SERVER_PATH_GET_SALARY" envDefault:"/api/v1/salary"`
+	GetBenefit    string `env:"HTTP_SERVER_PATH_GET_BENEFIT" envDefault:"/api/v1/benefit"`
+	GetInterview  string `env:"HTTP_SERVER_PATH_GET_INTERVIEW" envDefault:"/api/v1/interview"`
 }
 
 type Mongo struct {
@@ -40,5 +44,9 @@ type Mongo struct {
 		Salary    string `env:"MONGO_COLLECTION_SALARY"`
 		Benefit   string `env:"MONGO_COLLECTION_BENEFIT"`
 		Interview string `env:"MONGO_COLLECTION_INTERVIEW"`
+	}
+	DefaultQueryValue struct {
+		Pagesize int `env:"MONGO_DEFAULT_QUERY_VALUE_PAGESIZE" envDefault:"5"`
+		Pagenum  int `env:"MONGO_DEFAULT_QUERY_VALUE_PAGENUM" envDefault:"1"`
 	}
 }
