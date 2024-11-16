@@ -80,7 +80,7 @@ type Interview struct {
 type ByCompany struct {
 	Name           string `bson:"name" json:"name"`
 	DomainName     string `bson:"domain" json:"id"`
-	LogoUrl        string `bson:"logoUrl" json:"logoUrl"`
+	LogoUrl        string `bson:"logourl" json:"logourl"`
 	Description    string `bson:"description" json:"description"`
 	StaffRange     string `bson:"staff_range" json:"staff_range"`
 	CountReview    int    `json:"reviewCount" bson:"-"`
