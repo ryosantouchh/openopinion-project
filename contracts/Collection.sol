@@ -6,11 +6,12 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import { Review } from './Review.sol';
+import {Review} from './review.sol';
 
 contract Collection is ERC721, ERC721Enumerable, ERC721Burnable, Ownable {
     uint256 private _nextTokenId;
     mapping(address => uint256) OwnToken;
+    mapping(address => bool) hasMinted;
 
     Review burner;
 
@@ -34,6 +35,8 @@ contract Collection is ERC721, ERC721Enumerable, ERC721Burnable, Ownable {
 
     function safeMint() public {
         require(balanceOf(msg.sender) < 1, "One NFT per person");
+        require(!hasMinted[msg.sender], "One NFT per person");
+        hasMinted[msg.sender] = true;
         uint256 tokenId = _nextTokenId++;
         _safeMint(msg.sender, tokenId);
         OwnToken[msg.sender] = tokenId;
@@ -46,7 +49,6 @@ contract Collection is ERC721, ERC721Enumerable, ERC721Burnable, Ownable {
         override(ERC721, ERC721Enumerable)
         returns (address)
     {
-        require(to == address(0), "Only null");
         return super._update(to, tokenId, auth);
     }
 
