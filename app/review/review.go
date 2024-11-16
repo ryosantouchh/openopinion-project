@@ -4,31 +4,41 @@ type OverView struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	RecordId  string `json:"id" bson:"_id"`                // Hidden from JSON, visible for BSON
+	RecordId  string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
 	CompanyId string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Position  string `json:"position"`
 	Title     string `json:"title"`
 	Rating    int    `json:"rating"`
 	Content   string `json:"content"`
+	Review    struct {
+		Position string `bson:"position"`
+		Title    string `bson:"title"`
+		Rating   int    `bson:"rating"`
+		Content  string `bson:"content"`
+	} `json:"-"`
 }
 
 type Salary struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	RecordId  string `json:"id" bson:"_id"`                // Hidden from JSON, visible for BSON
+	RecordId  string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
 	CompanyId string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
-	Salary    string `json:"salary"`
-	Position  string `json:"position"`
+	Salary    string `bson:"salary"`
+	Position  string `bson:"position"`
+	Review    struct {
+		Salary   string `bson:"salary"`
+		Position string `bson:"position"`
+	} `json:"-"`
 }
 
 type Benefit struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	RecordId        string `json:"id" bson:"_id"`                // Hidden from JSON, visible for BSON
+	RecordId        string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
 	CompanyId       string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt       string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Position        string `json:"position"`
@@ -38,19 +48,34 @@ type Benefit struct {
 	StockPlan       int    `json:"stock_plan"`
 	StockOption     int    `json:"stock_option"`
 	AnnualLeave     int    `json:"annual_leave"`
+	Review          struct {
+		Position        string `bson:"position"`
+		Wfh             int    `bson:"wfh"`
+		HealthInsurance int    `bson:"health_insurance"`
+		CoursePaid      int    `bson:"l_and_d"`
+		StockPlan       int    `bson:"stock_plan"`
+		StockOption     int    `bson:"stock_option"`
+		AnnualLeave     int    `bson:"annual_leave"`
+	} `json:"-"`
 }
 
 type Interview struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	RecordId   string `json:"id" bson:"_id"`                // Hidden from JSON, visible for BSON
+	RecordId   string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
 	CompanyId  string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt  string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Difficulty string `json:"difficulty"`
 	Position   string `json:"position"`
 	Content    string `json:"content"`
 	Title      string `json:"title"`
+	Review     struct {
+		Difficulty string `bson:"difficulty"`
+		Position   string `bson:"position"`
+		Content    string `bson:"content"`
+		Title      string `bson:"title"`
+	} `json:"-"`
 }
 
 type ByCompany struct {
