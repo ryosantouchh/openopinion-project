@@ -4,18 +4,7 @@ import React from "react";
 import { User } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@nextui-org/react";
-
-export type ReviewOverviewType = {
-    id: string;
-    user: {
-        name: string;
-        avatar: string;
-    };
-    createdAt: string;
-    rating: number;
-    title: string;
-    content: string;
-};
+import { ReviewOverviewType } from "@/types";
 
 export type ReviewOverviewProps = React.HTMLAttributes<HTMLDivElement> & ReviewOverviewType;
 

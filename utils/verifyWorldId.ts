@@ -8,7 +8,7 @@ import {
 
 export const verifyWorldId = async (
   verifyPayload: VerifyCommandInput,
-): Promise<void | MiniAppVerifyActionSuccessPayload> => {
+): Promise<boolean | void> => {
   if (!MiniKit.isInstalled()) {
     return;
   }
@@ -16,27 +16,33 @@ export const verifyWorldId = async (
   const { finalPayload } = await MiniKit.commandsAsync.verify(verifyPayload);
 
   if (finalPayload.status === "error") {
-    return console.log("Error payload", finalPayload);
+    console.log("Error payload", finalPayload);
+
+    return false;
   }
 
-  return finalPayload;
+  // return finalPayload;
 
   // Verify the proof in the backend
-  // const verifyResponse = await fetch("/api/verify", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     payload: finalPayload as ISuccessResult, // Parses only the fields we need to verify
-  //     action: verifyPayload.action,
-  //     ...(verifyPayload.signal ? { signal: verifyPayload.signal } : undefined),
-  //   }),
-  // });
-  //
-  // // TODO: Handle Success!
-  // const verifyResponseJson = await verifyResponse.json();
-  // if (verifyResponseJson.status === 200) {
-  //   console.log("Verification success!");
-  // }
+  const verifyResponse = await fetch("/api/verify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      payload: finalPayload as ISuccessResult, // Parses only the fields we need to verify
+      action: verifyPayload.action,
+      ...(verifyPayload.signal ? { signal: verifyPayload.signal } : undefined),
+    }),
+  });
+
+  console.log(finalPayload);
+
+  // TODO: Handle Success!
+  const verifyResponseJson = await verifyResponse.json();
+  if (verifyResponseJson.status === 200) {
+    console.log("Verification success!");
+
+    return true;
+  }
 };
