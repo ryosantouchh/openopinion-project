@@ -1,8 +1,8 @@
 import { PayBlock } from "@/components/Pay";
 import { SignIn } from "@/components/SignIn";
 import { VerifyBlock } from "@/components/Verify";
-import { uploadDataToAkave } from "@/services/akave";
 import { Button } from "@nextui-org/button";
+import CompanyCard from "./components/companyCard";
 import Review from "./review/page";
 
 export default function Home() {
