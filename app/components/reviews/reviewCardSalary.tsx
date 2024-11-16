@@ -12,7 +12,7 @@ export type ReviewSalaryType = {
         avatar: string;
     };
     createdAt: string;
-    salary: string;
+    salary: number;
 };
 
 export type ReviewSalaryProps = React.HTMLAttributes<HTMLDivElement> & ReviewSalaryType;

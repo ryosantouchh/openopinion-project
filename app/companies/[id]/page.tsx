@@ -46,7 +46,7 @@ export default function CompanyDetailsPage() {
             <div className="pb-4 px-4">
                 {/* Company Details */}
                 <Avatar
-                    className="h-16 w-16 mb-4 translate-y-[-50%]"
+                    className="h-16 w-16 translate-y-[-50%]"
                     radius="sm"
                     src="https://avatars.githubusercontent.com/u/1063907?v=4"
                     alt="Company Logo"
@@ -66,7 +66,7 @@ export default function CompanyDetailsPage() {
                 {/* Tabs with Reviews */}
                 <Tabs
                     variant="underlined"
-                    className="w-full mt-6"
+                    className="w-full mt-6 mb-1"
                     aria-label="Dynamic tabs"
                     selectedKey={activeTab}
                     onSelectionChange={(key) => setActiveTab(key.toString())}
@@ -117,17 +117,17 @@ async function fetchOverviewReviews(companyId: string): Promise<ReviewOverviewTy
     return [
         {
             id: "1",
-            user: { name: "User 1", avatar: "https://example.com/avatar1.jpg" },
+            user: { name: "0x123bhj1dasd123bh1j23", avatar: "https://example.com/avatar1.jpg" },
             createdAt: "2023-11-10",
-            rating: 4,
+            rating: 4.5,
             title: "Great place!",
             content: "Had an amazing experience.",
         },
         {
             id: "2",
-            user: { name: "User 2", avatar: "https://example.com/avatar2.jpg" },
+            user: { name: "0x12312312312", avatar: "https://example.com/avatar2.jpg" },
             createdAt: "2023-10-20",
-            rating: 3,
+            rating: 2,
             title: "Good, but...",
             content: "Decent place, could be better.",
         },
@@ -140,19 +140,69 @@ async function fetchInterviewReviews(companyId: string): Promise<ReviewInterview
             id: "1",
             user: { name: "Candidate 1", avatar: "https://example.com/avatar3.jpg" },
             createdAt: "2023-09-15",
-            difficulty: "Hard",
+            difficulty: "very easy",
+            title: "Challenging interview",
+            content: "It was a tough process, but I learned a lot.",
+        },
+        {
+            id: "2",
+            user: { name: "Candidate 2", avatar: "https://example.com/avatar3.jpg" },
+            createdAt: "2023-09-15",
+            difficulty: "easy",
+            title: "Challenging interview",
+            content: "It was a tough process, but I learned a lot.",
+        },
+        {
+            id: "3",
+            user: { name: "Candidate 3", avatar: "https://example.com/avatar3.jpg" },
+            createdAt: "2023-09-15",
+            difficulty: "normal",
+            title: "Challenging interview",
+            content: "It was a tough process, but I learned a lot.",
+        },
+        {
+            id: "4",
+            user: { name: "Candidate 4", avatar: "https://example.com/avatar3.jpg" },
+            createdAt: "2023-09-15",
+            difficulty: "hard",
+            title: "Challenging interview",
+            content: "It was a tough process, but I learned a lot.",
+        },
+        {
+            id: "5",
+            user: { name: "Candidate 5", avatar: "https://example.com/avatar3.jpg" },
+            createdAt: "2023-09-15",
+            difficulty: "very hard",
             title: "Challenging interview",
             content: "It was a tough process, but I learned a lot.",
         },
     ];
 }
 
-async function fetchSalaryReviews(companyId: string): Promise<[]> {
+async function fetchSalaryReviews(companyId: string): Promise<ReviewSalaryType[]> {
     return [
-
+        {
+            id: "1",
+            user: { name: "Salary 1", avatar: "https://example.com/avatar3.jpg" },
+            createdAt: "2023-09-15",
+            salary: 100000,
+        },
+        {
+            id: "2",
+            user: { name: "Salary 2", avatar: "https://example.com/avatar3.jpg" },
+            createdAt: "2023-09-15",
+            salary: 200000,
+        },
     ];
 }
 
-async function fetchBenefitsReviews(companyId: string): Promise<[]> {
-    return [];
+async function fetchBenefitsReviews(companyId: string): Promise<ReviewBenefitsType[]> {
+    return [
+        // {
+        //     id: "1",
+        //     user: { name: "Benefits 1", avatar: "https://example.com/avatar3.jpg" },
+        //     createdAt: "2023-09-15",
+        //     benefits: "Great benefits",
+        // },
+    ];
 }

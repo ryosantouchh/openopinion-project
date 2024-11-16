@@ -41,16 +41,26 @@ export const ReviewCardOverview = React.forwardRef<HTMLDivElement, ReviewOvervie
                     />
                 </div>
                 <div className="flex items-center gap-1">
-                    {Array.from({ length: 5 }, (_, i) => (
-                        <Icon
-                            key={i}
-                            className={cn(
-                                "text-lg sm:text-xl",
-                                "text-warning",
-                            )}
-                            icon={i + 0.5 === rating ? "fluent:star-half-28-regular" : "fluent:star-28-filled"}
-                        />
-                    ))}
+                    {Array.from({ length: 5 }, (_, i) => {
+                        const isFullStar = i < Math.floor(rating);
+                        const isHalfStar = i === Math.floor(rating) && rating % 1 !== 0;
+                        return (
+                            <Icon
+                                key={i}
+                                className={cn(
+                                    "text-lg sm:text-xl",
+                                    "text-warning",
+                                )}
+                                icon={
+                                    isFullStar
+                                        ? "fluent:star-28-filled"
+                                        : isHalfStar
+                                            ? "fluent:star-half-28-regular"
+                                            : "fluent:star-28-regular"
+                                }
+                            />
+                        );
+                    })}
                 </div>
             </div>
             <div className="mt-4 w-full">

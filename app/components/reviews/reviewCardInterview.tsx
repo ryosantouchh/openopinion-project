@@ -19,6 +19,23 @@ export type ReviewInterviewType = {
 
 export type ReviewInterviewProps = React.HTMLAttributes<HTMLDivElement> & ReviewInterviewType;
 
+const getChipColor = (difficulty: string) => {
+    switch (difficulty.toLowerCase()) {
+        case "very easy":
+            return "bg-green-200";
+        case "easy":
+            return "bg-blue-200";
+        case "medium":
+            return "bg-yellow-200";
+        case "hard":
+            return "bg-orange-200";
+        case "very hard":
+            return "bg-red-200";
+        default:
+            return "bg-gray-200";
+    }
+};
+
 export const ReviewCardInterview = React.forwardRef<HTMLDivElement, ReviewInterviewProps>(
     ({ children, user, title, content, createdAt, difficulty, ...props }, ref) => (
         <div ref={ref} {...props} className="border-b pb-4 mb-4">
@@ -41,7 +58,7 @@ export const ReviewCardInterview = React.forwardRef<HTMLDivElement, ReviewInterv
                     />
                 </div>
                 <div className="flex items-center gap-1">
-                    <Chip>{difficulty}</Chip>
+                    <Chip className={getChipColor(difficulty)}>{difficulty}</Chip>
                 </div>
             </div>
             <div className="mt-4 w-full">
