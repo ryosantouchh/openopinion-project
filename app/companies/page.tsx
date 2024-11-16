@@ -13,11 +13,21 @@ export default function CompaniesPage() {
         const response = await fetch(buildUrl("company"));
         const data = await response.json();
         setCompanies(data);
+
+        data.forEach((company: any) => {
+            const { overview, salary, interview, benefit } = company.review_score;
+            const avgRating = [overview, salary, interview, benefit].every(score => score.rating)
+                ? (overview.rating + salary.rating + interview.rating + benefit.rating) / 4
+                : 0;
+            company.avgRating = avgRating;
+        });
+
         console.log(data);
     }
 
     useEffect(() => {
         fetchCompanies();
+        setCompanies(mockCompanies);
     }, []);
 
     return (
@@ -37,16 +47,16 @@ export default function CompaniesPage() {
                     name={company.name}
                     logoUrl={company.logoUrl}
                     avgRating={company.avgRating}
-                    reviewCount={company.reviewCount}
-                    salaryCount={company.salaryCount}
-                    jobCount={company.jobCount}
+                    reviewCount={12}
+                    salaryCount={15}
+                    jobCount={17}
                 />
             ))}
         </div>
     )
 }
 
-const companies = [
+const mockCompanies = [
     {
         id: "1",
         name: "Agogo",
