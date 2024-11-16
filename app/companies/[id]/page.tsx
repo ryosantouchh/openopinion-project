@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { ReviewCardOverview, ReviewOverviewType } from "@/app/components/reviews/reviewCardOverview";
 import { ReviewCardInterview, ReviewInterviewType } from "@/app/components/reviews/reviewCardInterview";
-import { ReviewSalaryType } from "@/app/components/reviews/reviewCardSalary";
+import { ReviewCardSalary, ReviewSalaryType, SalaryRangeCard } from "@/app/components/reviews/reviewCardSalary";
 import { ReviewBenefitsType, ReviewCardBenefits } from "@/app/components/reviews/reviewCardBenefits";
 
 export default function CompanyDetailsPage() {
@@ -91,9 +91,10 @@ export default function CompanyDetailsPage() {
                     </Tab>
                     <Tab key="salaries" title="Salaries">
                         {salaryReviews.length > 0 ? (
-                            salaryReviews.map((review) => (
-                                <div key={review?.id}>Salary Review Placeholder</div>
-                            ))
+                            <>
+                                <SalaryRangeCard role="Software Engineer" salaries={[100000, 200000]} />
+                                <SalaryRangeCard role="Product Manager" salaries={[80000, 150000]} />
+                            </>
                         ) : (
                             <p>No salary reviews available.</p>
                         )}
@@ -186,23 +187,35 @@ async function fetchSalaryReviews(companyId: string): Promise<ReviewSalaryType[]
             user: { name: "Salary 1", avatar: "https://example.com/avatar3.jpg" },
             createdAt: "2023-09-15",
             salary: 100000,
+            role: "Software Engineer",
         },
         {
             id: "2",
             user: { name: "Salary 2", avatar: "https://example.com/avatar3.jpg" },
             createdAt: "2023-09-15",
             salary: 200000,
+            role: "Software Engineer",
         },
     ];
 }
 
 async function fetchBenefitsReviews(companyId: string): Promise<ReviewBenefitsType[]> {
     return [
-        // {
-        //     id: "1",
-        //     user: { name: "Benefits 1", avatar: "https://example.com/avatar3.jpg" },
-        //     createdAt: "2023-09-15",
-        //     benefits: "Great benefits",
-        // },
+        {
+            id: "1",
+            user: { name: "0x123bhj1dasd123bh1j23", avatar: "https://example.com/avatar1.jpg" },
+            createdAt: "2023-11-10",
+            rating: 1.5,
+            title: "Great place!",
+            content: "Had an amazing experience.",
+        },
+        {
+            id: "2",
+            user: { name: "0x12312312312", avatar: "https://example.com/avatar2.jpg" },
+            createdAt: "2023-10-20",
+            rating: 1,
+            title: "Good, but...",
+            content: "Decent place, could be better.",
+        },
     ];
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { User, Chip } from "@nextui-org/react";
+import { User, cn } from "@nextui-org/react";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export type ReviewBenefitsType = {
     id: string;
@@ -9,14 +10,16 @@ export type ReviewBenefitsType = {
         name: string;
         avatar: string;
     };
+    rating: number;
+    title: string;
+    content: string;
     createdAt: string;
-    salary: string;
 };
 
 export type ReviewBenefitsProps = React.HTMLAttributes<HTMLDivElement> & ReviewBenefitsType;
 
 export const ReviewCardBenefits = React.forwardRef<HTMLDivElement, ReviewBenefitsProps>(
-    ({ children, user, salary, createdAt, ...props }, ref) => (
+    ({ children, user, title, content, rating, createdAt, ...props }, ref) => (
         <div ref={ref} {...props} className="border-b pb-4 mb-4">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -37,11 +40,31 @@ export const ReviewCardBenefits = React.forwardRef<HTMLDivElement, ReviewBenefit
                     />
                 </div>
                 <div className="flex items-center gap-1">
-                    <Chip>{salary}</Chip>
+                    {Array.from({ length: 5 }, (_, i) => {
+                        const isFullStar = i < Math.floor(rating);
+                        const isHalfStar = i === Math.floor(rating) && rating % 1 !== 0;
+                        return (
+                            <Icon
+                                key={i}
+                                className={cn(
+                                    "text-lg sm:text-xl",
+                                    "text-warning",
+                                )}
+                                icon={
+                                    isFullStar
+                                        ? "fluent:star-28-filled"
+                                        : isHalfStar
+                                            ? "fluent:star-half-28-regular"
+                                            : "fluent:star-28-regular"
+                                }
+                            />
+                        );
+                    })}
                 </div>
             </div>
             <div className="mt-4 w-full">
-                <p className="font-medium text-default-900">{salary}</p>
+                <p className="font-medium text-default-900">{title}</p>
+                <p className="mt-2 text-default-500">{content || children}</p>
             </div>
         </div>
     ),
