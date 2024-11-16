@@ -7,16 +7,16 @@ type OverView struct {
 	RecordId  string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
 	CompanyId string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
-	Position  string `json:"position"`
-	Title     string `json:"title"`
-	Rating    int    `json:"rating"`
-	Content   string `json:"content"`
+	Position  string `json:"position" bson:"-"`
+	Title     string `json:"title" bson:"-"`
+	Rating    int    `json:"rating" bson:"-"`
+	Content   string `json:"content" bson:"-"`
 	Review    struct {
-		Position string `bson:"position"`
-		Title    string `bson:"title"`
-		Rating   int    `bson:"rating"`
-		Content  string `bson:"content"`
-	} `json:"-"`
+		Position string `bson:"position" json:"-"`
+		Title    string `bson:"title" json:"-"`
+		Rating   int    `bson:"rating" json:"-"`
+		Content  string `bson:"content" json:"-"`
+	} `bson:"review" json:"-"`
 }
 
 type Salary struct {
@@ -29,9 +29,9 @@ type Salary struct {
 	Salary    string `bson:"salary"`
 	Position  string `bson:"position"`
 	Review    struct {
-		Salary   string `bson:"salary"`
-		Position string `bson:"position"`
-	} `json:"-"`
+		Salary   string `bson:"salary" json:"-"`
+		Position string `bson:"position" json:"-"`
+	} `json:"-" bson:"review"`
 }
 
 type Benefit struct {
@@ -49,14 +49,14 @@ type Benefit struct {
 	StockOption     int    `json:"stock_option"`
 	AnnualLeave     int    `json:"annual_leave"`
 	Review          struct {
-		Position        string `bson:"position"`
-		Wfh             int    `bson:"wfh"`
-		HealthInsurance int    `bson:"health_insurance"`
-		CoursePaid      int    `bson:"l_and_d"`
-		StockPlan       int    `bson:"stock_plan"`
-		StockOption     int    `bson:"stock_option"`
-		AnnualLeave     int    `bson:"annual_leave"`
-	} `json:"-"`
+		Position        string `bson:"position" json:"-"`
+		Wfh             int    `bson:"wfh" json:"-"`
+		HealthInsurance int    `bson:"health_insurance" json:"-"`
+		CoursePaid      int    `bson:"l_and_d" json:"-"`
+		StockPlan       int    `bson:"stock_plan" json:"-"`
+		StockOption     int    `bson:"stock_option" json:"-"`
+		AnnualLeave     int    `bson:"annual_leave" json:"-"`
+	} `json:"-" bson:"review"`
 }
 
 type Interview struct {
@@ -71,11 +71,11 @@ type Interview struct {
 	Content    string `json:"content"`
 	Title      string `json:"title"`
 	Review     struct {
-		Difficulty string `bson:"difficulty"`
-		Position   string `bson:"position"`
-		Content    string `bson:"content"`
-		Title      string `bson:"title"`
-	} `json:"-"`
+		Difficulty string `bson:"difficulty" json:"-"`
+		Position   string `bson:"position" json:"-"`
+		Content    string `bson:"content" json:"-"`
+		Title      string `bson:"title" json:"-"`
+	} `json:"-" bson:"review"`
 }
 
 type ByCompany struct {

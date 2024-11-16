@@ -2,6 +2,7 @@ package review
 
 import (
 	"context"
+	"log"
 	"math"
 	"review/app"
 
@@ -93,13 +94,14 @@ func (s *service) GetReviewByOverview(ctx context.Context, companyDomain, postId
 		return nil, err
 	}
 	for i := range reviews {
-		reviews[i].Review.Content = reviews[i].Content
-		reviews[i].Review.Position = reviews[i].Position
-		reviews[i].Review.Title = reviews[i].Title
-		reviews[i].Review.Rating = reviews[i].Rating
+		reviews[i].Content = reviews[i].Review.Content
+		reviews[i].Position = reviews[i].Review.Position
+		reviews[i].Title = reviews[i].Review.Title
+		reviews[i].Rating = reviews[i].Review.Rating
 	}
+	log.Printf("reviews: %+v", reviews)
 
-	logger.Debug("Get review by overview success")
+	logger.Debug("Get review by overview success", zap.Any("reviews", reviews))
 	return reviews, nil
 }
 
@@ -115,8 +117,8 @@ func (s *service) GetReviewBySalary(ctx context.Context, companyDomain, postId s
 	}
 
 	for i := range reviews {
-		reviews[i].Review.Salary = reviews[i].Salary
-		reviews[i].Review.Position = reviews[i].Position
+		reviews[i].Salary = reviews[i].Review.Salary
+		reviews[i].Position = reviews[i].Review.Position
 	}
 
 	logger.Debug("Get review by salary success")
@@ -135,13 +137,13 @@ func (s *service) GetReviewByBenefit(ctx context.Context, companyDomain, postId 
 	}
 
 	for i := range reviews {
-		reviews[i].Review.Position = reviews[i].Position
-		reviews[i].Review.Wfh = reviews[i].Wfh
-		reviews[i].Review.HealthInsurance = reviews[i].HealthInsurance
-		reviews[i].Review.CoursePaid = reviews[i].CoursePaid
-		reviews[i].Review.StockPlan = reviews[i].StockPlan
-		reviews[i].Review.StockOption = reviews[i].StockOption
-		reviews[i].Review.AnnualLeave = reviews[i].AnnualLeave
+		reviews[i].Position = reviews[i].Review.Position
+		reviews[i].Wfh = reviews[i].Review.Wfh
+		reviews[i].HealthInsurance = reviews[i].Review.HealthInsurance
+		reviews[i].CoursePaid = reviews[i].Review.CoursePaid
+		reviews[i].StockPlan = reviews[i].Review.StockPlan
+		reviews[i].StockOption = reviews[i].Review.StockOption
+		reviews[i].AnnualLeave = reviews[i].Review.AnnualLeave
 	}
 
 	logger.Debug("Get review by benefit success")
@@ -160,10 +162,10 @@ func (s *service) GetReviewByInterview(ctx context.Context, companyDomain, postI
 	}
 
 	for i := range reviews {
-		reviews[i].Review.Position = reviews[i].Position
-		reviews[i].Review.Difficulty = reviews[i].Difficulty
-		reviews[i].Review.Content = reviews[i].Content
-		reviews[i].Review.Title = reviews[i].Title
+		reviews[i].Position = reviews[i].Review.Position
+		reviews[i].Difficulty = reviews[i].Review.Difficulty
+		reviews[i].Content = reviews[i].Review.Content
+		reviews[i].Title = reviews[i].Review.Title
 	}
 
 	logger.Debug("Get review by interview success")
