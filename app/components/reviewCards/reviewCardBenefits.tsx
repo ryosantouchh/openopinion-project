@@ -22,7 +22,7 @@ export type ReviewBenefitsType = {
     stock_options: number;
     annual_leave: number;
     l_and_d: number;
-    createdAt: string;
+    created_at: string;
 };
 
 export type ReviewBenefitsProps = React.HTMLAttributes<HTMLDivElement> & ReviewBenefitsType;
@@ -38,7 +38,7 @@ const BenefitItem = ({ icon: Icon, label, value }: { icon: React.ElementType, la
 );
 
 export const ReviewCardBenefits = React.forwardRef<HTMLDivElement, ReviewBenefitsProps>(
-    ({ user, health_insurance, stock_plan, stock_options, annual_leave, l_and_d, createdAt, id, ...props }, ref) => (
+    ({ user, health_insurance, stock_plan, stock_options, annual_leave, l_and_d, created_at, id, ...props }, ref) => (
         // <Link href={`/reviews/benefits/${id}`}>
         <div ref={ref} {...props} className="border-b pb-4 mb-4 bg-white shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex items-center justify-between p-4">
@@ -55,7 +55,7 @@ export const ReviewCardBenefits = React.forwardRef<HTMLDivElement, ReviewBenefit
                             month: "long",
                             day: "numeric",
                             year: "numeric",
-                        }).format(new Date(createdAt))}
+                        }).format(new Date(created_at))}
                         name={user.name}
                     />
                 </div>

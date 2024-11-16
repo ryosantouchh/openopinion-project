@@ -6,12 +6,12 @@ import { Icon } from "@iconify/react";
 import { cn } from "@nextui-org/react";
 import Link from 'next/link'
 export type ReviewOverviewType = {
-    id: string;
+    record_id: string;
     user: {
         name: string;
         avatar: string;
     };
-    createdAt: string;
+    created_at: string;
     rating: number;
     title: string;
     content: string;
@@ -20,7 +20,7 @@ export type ReviewOverviewType = {
 export type ReviewOverviewProps = React.HTMLAttributes<HTMLDivElement> & ReviewOverviewType;
 
 export const ReviewCardOverview = React.forwardRef<HTMLDivElement, ReviewOverviewProps>(
-    ({ children, user, title, content, rating, createdAt, id, ...props }, ref) => (
+    ({ children, user, title, content, rating, created_at, record_id: id, ...props }, ref) => (
         <Link href={`/reviews/overview/${id}`}>
             <div ref={ref} {...props} className="border-b pb-4 mb-4">
                 <div className="flex items-center justify-between">
@@ -37,7 +37,7 @@ export const ReviewCardOverview = React.forwardRef<HTMLDivElement, ReviewOvervie
                                 month: "long",
                                 day: "numeric",
                                 year: "numeric",
-                            }).format(new Date(createdAt))}
+                            }).format(new Date(created_at))}
                             name={user.name}
                         />
                     </div>

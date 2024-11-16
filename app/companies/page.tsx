@@ -1,9 +1,25 @@
-import React from 'react'
+"use client";
+
+import React, { useEffect, useState } from 'react'
 import CompanyCard from '../components/companyCard'
 import { Input } from '@nextui-org/input'
 import { Button } from '@nextui-org/react'
+import { buildUrl } from '@/utils/api';
 
 export default function CompaniesPage() {
+    const [companies, setCompanies] = useState<any[]>([]);
+
+    const fetchCompanies = async () => {
+        const response = await fetch(buildUrl("company"));
+        const data = await response.json();
+        setCompanies(data);
+        console.log(data);
+    }
+
+    useEffect(() => {
+        fetchCompanies();
+    }, []);
+
     return (
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">Explore Companies</h1>

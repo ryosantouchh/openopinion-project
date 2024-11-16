@@ -9,7 +9,7 @@ export type ReviewSalaryType = {
         name: string;
         avatar: string;
     };
-    createdAt: string;
+    created_at: string;
     salary: number;
     role: string;
 };
@@ -22,7 +22,7 @@ export type SalaryRangeProps = {
 export type ReviewSalaryProps = React.HTMLAttributes<HTMLDivElement> & ReviewSalaryType;
 
 export const ReviewCardSalary = React.forwardRef<HTMLDivElement, ReviewSalaryProps>(
-    ({ children, user, salary, role, createdAt, id, ...props }, ref) => (
+    ({ children, user, salary, role, created_at, id, ...props }, ref) => (
         <Link href={`/reviews/salaries/${id}`}>
             <div ref={ref} {...props} className="border-b pb-4 mb-4">
                 <div className="flex items-center justify-between">
@@ -39,7 +39,7 @@ export const ReviewCardSalary = React.forwardRef<HTMLDivElement, ReviewSalaryPro
                                 month: "long",
                                 day: "numeric",
                                 year: "numeric",
-                            }).format(new Date(createdAt))}
+                            }).format(new Date(created_at))}
                             name={user.name}
                         />
                     </div>

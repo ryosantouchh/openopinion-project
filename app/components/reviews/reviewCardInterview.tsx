@@ -12,7 +12,7 @@ export type ReviewInterviewType = {
         name: string;
         avatar: string;
     };
-    createdAt: string;
+    created_at: string;
     difficulty: Difficulty;
     title: string;
     content: string;
@@ -22,7 +22,7 @@ export type ReviewInterviewProps = React.HTMLAttributes<HTMLDivElement> & Review
 
 
 export const ReviewCardInterview = React.forwardRef<HTMLDivElement, ReviewInterviewProps>(
-    ({ children, user, title, content, createdAt, difficulty, id, ...props }, ref) => (
+    ({ children, user, title, content, created_at, difficulty, id, ...props }, ref) => (
         <Link href={`/reviews/interviews/${id}`}>
             <div ref={ref} {...props} className="border-b pb-4 mb-4">
                 <div className="flex items-center justify-between">
@@ -39,7 +39,7 @@ export const ReviewCardInterview = React.forwardRef<HTMLDivElement, ReviewInterv
                                 month: "long",
                                 day: "numeric",
                                 year: "numeric",
-                            }).format(new Date(createdAt))}
+                            }).format(new Date(created_at))}
                             name={user.name}
                         />
                     </div>
