@@ -4,7 +4,8 @@ type OverView struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Company   string `json:"company"`
+	Id        string `json:"id"`
+	Company   string `json:"id" bson:"company"`            // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Position string `json:"position"`
@@ -18,7 +19,7 @@ type Salary struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Company   string `json:"company"`
+	Company   string `json:"id" bson:"company"`
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Salary   string `json:"salary"`
@@ -30,7 +31,7 @@ type Benefit struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Company   string `json:"company"`
+	Company   string `json:"id" bson:"company"`
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Position        string `json:"position"`
@@ -47,7 +48,7 @@ type Interview struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Company   string `json:"company"`
+	Company   string `json:"id" bson:"company"`            // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Difficulty string `json:"difficulty"`

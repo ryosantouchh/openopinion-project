@@ -92,6 +92,11 @@ func (s *service) GetReviewByOverview(ctx context.Context, companyDomain string,
 		return nil, err
 	}
 
+	// add company to id
+	for i := range reviews {
+		reviews[i].Id = companyDomain
+	}
+
 	logger.Debug("Get review by overview success")
 	return reviews, nil
 }
