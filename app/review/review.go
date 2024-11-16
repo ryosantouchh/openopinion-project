@@ -4,7 +4,6 @@ type OverView struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Id        string `json:"id"`
 	Company   string `json:"id" bson:"company"`            // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
