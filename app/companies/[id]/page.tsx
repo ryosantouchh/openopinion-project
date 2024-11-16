@@ -4,10 +4,12 @@ import { Avatar, Button, Tab, Tabs } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import { ReviewCardOverview, ReviewOverviewType } from "@/app/components/reviews/reviewCardOverview";
-import { ReviewCardInterview, ReviewInterviewType } from "@/app/components/reviews/reviewCardInterview";
-import { ReviewCardSalary, ReviewSalaryType, SalaryRangeCard } from "@/app/components/reviews/reviewCardSalary";
-import { ReviewBenefitsType, ReviewCardBenefits } from "@/app/components/reviews/reviewCardBenefits";
+import { ReviewCardOverview, ReviewOverviewType } from "@/app/components/reviewCards/reviewCardOverview";
+import { ReviewCardInterview, ReviewInterviewType } from "@/app/components/reviewCards/reviewCardInterview";
+import { ReviewCardSalary, ReviewSalaryType, SalaryRangeCard } from "@/app/components/reviewCards/reviewCardSalary";
+import { ReviewBenefitsType, ReviewCardBenefits } from "@/app/components/reviewCards/reviewCardBenefits";
+import { Difficulty } from "@/app/consts/difficulty";
+import Link from "next/link";
 
 export default function CompanyDetailsPage() {
     const { id } = useParams();
@@ -51,16 +53,21 @@ export default function CompanyDetailsPage() {
                     src="https://avatars.githubusercontent.com/u/1063907?v=4"
                     alt="Company Logo"
                 />
-                <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-800">Agogo</h2>
-                    <Button>Review</Button>
-                </div>
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                        <p className="text-xl font-medium mr-4">Overall Rating</p>
-                        <span className="text-xl font-medium mr-1">4.5</span>
-                        <Icon icon="solar:star-bold" className="text-yellow-500" />
+                <div className="flex items-end justify-between">
+                    <div className="flex flex-col items-start">
+                        <h2 className="text-2xl font-bold text-gray-800">Agogo</h2>
+                        <div className="flex items-center">
+                            <p className="text-xl font-medium mr-4">Overall Rating</p>
+                            <span className="text-xl font-medium mr-1">4.5</span>
+                            <Icon icon="fluent:star-28-filled" className="text-yellow-500" />
+                        </div>
                     </div>
+                    <Button color="primary"
+                        as={Link}
+                        href="/reviews/create"
+                    >
+                        Write a Review
+                    </Button>
                 </div>
 
                 {/* Tabs with Reviews */}
@@ -141,7 +148,7 @@ async function fetchInterviewReviews(companyId: string): Promise<ReviewInterview
             id: "1",
             user: { name: "Candidate 1", avatar: "https://example.com/avatar3.jpg" },
             createdAt: "2023-09-15",
-            difficulty: "very easy",
+            difficulty: Difficulty.VERY_EASY,
             title: "Challenging interview",
             content: "It was a tough process, but I learned a lot.",
         },
@@ -149,7 +156,7 @@ async function fetchInterviewReviews(companyId: string): Promise<ReviewInterview
             id: "2",
             user: { name: "Candidate 2", avatar: "https://example.com/avatar3.jpg" },
             createdAt: "2023-09-15",
-            difficulty: "easy",
+            difficulty: Difficulty.EASY,
             title: "Challenging interview",
             content: "It was a tough process, but I learned a lot.",
         },
@@ -157,7 +164,7 @@ async function fetchInterviewReviews(companyId: string): Promise<ReviewInterview
             id: "3",
             user: { name: "Candidate 3", avatar: "https://example.com/avatar3.jpg" },
             createdAt: "2023-09-15",
-            difficulty: "normal",
+            difficulty: Difficulty.MEDIUM,
             title: "Challenging interview",
             content: "It was a tough process, but I learned a lot.",
         },
@@ -165,7 +172,7 @@ async function fetchInterviewReviews(companyId: string): Promise<ReviewInterview
             id: "4",
             user: { name: "Candidate 4", avatar: "https://example.com/avatar3.jpg" },
             createdAt: "2023-09-15",
-            difficulty: "hard",
+            difficulty: Difficulty.HARD,
             title: "Challenging interview",
             content: "It was a tough process, but I learned a lot.",
         },
@@ -173,7 +180,7 @@ async function fetchInterviewReviews(companyId: string): Promise<ReviewInterview
             id: "5",
             user: { name: "Candidate 5", avatar: "https://example.com/avatar3.jpg" },
             createdAt: "2023-09-15",
-            difficulty: "very hard",
+            difficulty: Difficulty.VERY_HARD,
             title: "Challenging interview",
             content: "It was a tough process, but I learned a lot.",
         },

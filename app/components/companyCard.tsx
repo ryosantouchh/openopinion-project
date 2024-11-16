@@ -42,7 +42,7 @@ export default function CompanyCard({
                             <span className="text-xl font-medium mr-1">{avgRating}</span>
                             <Icon
                                 className="text-lg sm:text-xl"
-                                icon="solar:star-bold"
+                                icon="fluent:star-28-filled"
                             />
                         </div>
                     </div>

@@ -48,5 +48,14 @@ const companies = [
         reviewCount: 20000,
         salaryCount: 69,
         jobCount: 1,
+    },
+    {
+        id: "3",
+        name: "BKM",
+        logoUrl: "https://datacentrereview.com/wp-content/uploads/2021/02/Amazon.png",
+        avgRating: 3,
+        reviewCount: 20000,
+        salaryCount: 69,
+        jobCount: 1,
     }
 ]

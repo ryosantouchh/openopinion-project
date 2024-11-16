@@ -3,9 +3,8 @@
 import React from "react";
 import { User, Chip } from "@nextui-org/react";
 import Link from 'next/link'
-import { Difficulty } from "@/app/consts/difficulty";
 import { getChipColor } from "@/app/utils/chip";
-
+import { Difficulty } from "@/app/consts/difficulty";
 export type ReviewInterviewType = {
     id: string;
     user: {

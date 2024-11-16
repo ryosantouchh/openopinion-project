@@ -28,18 +28,18 @@ export default function RootLayout({
   );
   return (
     <html lang="en">
-      <NextAuthProvider>
-        <ErudaProvider>
-          <MiniKitProvider>
-            <NextUIProvider>
-              <body className={inter.className}>
+      <body className={inter.className}>
+        <NextAuthProvider>
+          <ErudaProvider>
+            <MiniKitProvider>
+              <NextUIProvider>
                 <Navbar />
                 {children}
-              </body>
-            </NextUIProvider>
-          </MiniKitProvider>
-        </ErudaProvider>
-      </NextAuthProvider>
+              </NextUIProvider>
+            </MiniKitProvider>
+          </ErudaProvider>
+        </NextAuthProvider>
+      </body>
     </html>
   );
 }
