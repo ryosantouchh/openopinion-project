@@ -16,6 +16,7 @@ type Storager interface {
 	GetReviewBySalary(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Salary, error)
 	GetReviewByBenefit(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Benefit, error)
 	GetReviewByInterview(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Interview, error)
+	CountReviewByCompanyAndType(ctx context.Context, companyDomain, t string) (int, error)
 }
 
 type service struct {
@@ -43,6 +44,40 @@ func (s *service) GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCom
 		companyList[i].Score.Salary.Rating = calRating(companyList[i].Score.Salary.TotalCount, companyList[i].Score.Salary.TotalScore)
 		companyList[i].Score.Benefit.Rating = calRating(companyList[i].Score.Benefit.TotalCount, companyList[i].Score.Benefit.TotalScore)
 		companyList[i].Score.Interview.Rating = calRating(companyList[i].Score.Interview.TotalCount, companyList[i].Score.Interview.TotalScore)
+	}
+
+	// get len of each type
+	for i := range companyList {
+		companyName := companyList[i].DomainName
+
+		// query in each type
+		overviewCount, err := s.storage.CountReviewByCompanyAndType(ctx, companyName, "overview")
+		if err != nil {
+			logger.Error("Failed to get count review by company and type", zap.Error(err))
+			return nil, err
+		}
+
+		salCount, err := s.storage.CountReviewByCompanyAndType(ctx, companyName, "salary")
+		if err != nil {
+			logger.Error("Failed to get count review by company and type", zap.Error(err))
+			return nil, err
+		}
+
+		benefitCount, err := s.storage.CountReviewByCompanyAndType(ctx, companyName, "benefit")
+		if err != nil {
+			logger.Error("Failed to get count review by company and type", zap.Error(err))
+			return nil, err
+		}
+
+		interviewCount, err := s.storage.CountReviewByCompanyAndType(ctx, companyName, "interview")
+		if err != nil {
+			logger.Error("Failed to get count review by company and type", zap.Error(err))
+			return nil, err
+		}
+
+		companyList[i].CountReview = overviewCount + salCount + benefitCount + interviewCount
+		companyList[i].CountInterview = interviewCount
+		companyList[i].CountSal = salCount
 	}
 
 	logger.Debug("Get all company success")

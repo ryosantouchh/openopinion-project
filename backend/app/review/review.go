@@ -79,11 +79,14 @@ type Interview struct {
 }
 
 type ByCompany struct {
-	Name        string `bson:"name" json:"name"`
-	DomainName  string `bson:"domain" json:"id"`
-	Description string `bson:"description" json:"description"`
-	StaffRange  string `bson:"staff_range" json:"staff_range"`
-	Score       struct {
+	Name           string `bson:"name" json:"name"`
+	DomainName     string `bson:"domain" json:"id"`
+	Description    string `bson:"description" json:"description"`
+	StaffRange     string `bson:"staff_range" json:"staff_range"`
+	CountReview    int    `json:"countReviews" bson:"-"`
+	CountInterview int    `json:"countInterviews" bson:"-"`
+	CountSal       int    `json:"countSalalaries" bson:"-"`
+	Score          struct {
 		Overview struct {
 			TotalCount int     `bson:"total_count" json:"-"` // Hidden from JSON, visible for BSON
 			TotalScore float32 `bson:"total_score" json:"-"` // Hidden from JSON, visible for BSON
