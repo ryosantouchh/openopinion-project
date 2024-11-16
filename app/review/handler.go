@@ -2,6 +2,7 @@ package review
 
 import (
 	"context"
+	"review/config"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -16,22 +17,23 @@ type servicer interface {
 }
 
 type handler struct {
+	cfg config.DefaultQueryValue
 	svc servicer
 }
 
-func NewHandler(service servicer) *handler {
-	return &handler{svc: service}
+func NewHandler(cfg config.DefaultQueryValue, service servicer) *handler {
+	return &handler{cfg, service}
 }
 
 func (h *handler) GetAllCompany(ec echo.Context) error {
 	ctx := ec.Request().Context()
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgSize = h.cfg.Pagesize
 	}
 	pgNum, err := strconv.Atoi(ec.QueryParam("pageNum"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgNum = h.cfg.Pagenum
 	}
 
 	companies, err := h.svc.GetAllCompany(ctx, pgSize, pgNum)
@@ -44,14 +46,14 @@ func (h *handler) GetAllCompany(ec echo.Context) error {
 
 func (h *handler) GetReviewByOverview(ec echo.Context) error {
 	ctx := ec.Request().Context()
-	companyDomain := ec.Param("companyId")
+	companyDomain := ec.QueryParam("companyId")
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgSize = h.cfg.Pagesize
 	}
 	pgNum, err := strconv.Atoi(ec.QueryParam("pageNum"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgNum = h.cfg.Pagenum
 	}
 
 	reviews, err := h.svc.GetReviewByOverview(ctx, companyDomain, pgSize, pgNum)
@@ -64,14 +66,14 @@ func (h *handler) GetReviewByOverview(ec echo.Context) error {
 
 func (h *handler) GetReviewBySalary(ec echo.Context) error {
 	ctx := ec.Request().Context()
-	companyDomain := ec.Param("companyId")
+	companyDomain := ec.QueryParam("companyId")
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgSize = h.cfg.Pagesize
 	}
 	pgNum, err := strconv.Atoi(ec.QueryParam("pageNum"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgNum = h.cfg.Pagenum
 	}
 
 	reviews, err := h.svc.GetReviewBySalary(ctx, companyDomain, pgSize, pgNum)
@@ -84,14 +86,14 @@ func (h *handler) GetReviewBySalary(ec echo.Context) error {
 
 func (h *handler) GetReviewByBenefit(ec echo.Context) error {
 	ctx := ec.Request().Context()
-	companyDomain := ec.Param("companyId")
+	companyDomain := ec.QueryParam("companyId")
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgSize = h.cfg.Pagesize
 	}
 	pgNum, err := strconv.Atoi(ec.QueryParam("pageNum"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgNum = h.cfg.Pagenum
 	}
 
 	reviews, err := h.svc.GetReviewByBenefit(ctx, companyDomain, pgSize, pgNum)
@@ -104,14 +106,14 @@ func (h *handler) GetReviewByBenefit(ec echo.Context) error {
 
 func (h *handler) GetReviewByInterview(ec echo.Context) error {
 	ctx := ec.Request().Context()
-	companyDomain := ec.Param("companyId")
+	companyDomain := ec.QueryParam("companyId")
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgSize = h.cfg.Pagesize
 	}
 	pgNum, err := strconv.Atoi(ec.QueryParam("pageNum"))
 	if err != nil {
-		return ec.JSON(400, err)
+		pgNum = h.cfg.Pagenum
 	}
 
 	reviews, err := h.svc.GetReviewByInterview(ctx, companyDomain, pgSize, pgNum)

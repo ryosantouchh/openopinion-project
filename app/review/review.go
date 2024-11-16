@@ -1,20 +1,11 @@
 package review
 
-type ReviewType string
-
-const (
-	TypeOverview  ReviewType = "1"
-	TypeSalary    ReviewType = "2"
-	TypeBenefit   ReviewType = "3"
-	TypeInterview ReviewType = "4"
-)
-
 type OverView struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
 	Company   string `json:"company"`
-	CreatedAt string `json:"created_at"`
+	CreatedAt string `json:"-" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Position string `json:"position"`
 		Title    string `json:"title"`
@@ -28,7 +19,7 @@ type Salary struct {
 		Address string `json:"address"`
 	} `json:"user"`
 	Company   string `json:"company"`
-	CreatedAt string `json:"created_at"`
+	CreatedAt string `json:"-" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Salary   string `json:"salary"`
 		Position string `json:"position"`
@@ -40,7 +31,7 @@ type Benefit struct {
 		Address string `json:"address"`
 	} `json:"user"`
 	Company   string `json:"company"`
-	CreatedAt string `json:"created_at"`
+	CreatedAt string `json:"-" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Position        string `json:"position"`
 		Wfh             int    `json:"wfh"`
@@ -57,7 +48,7 @@ type Interview struct {
 		Address string `json:"address"`
 	} `json:"user"`
 	Company   string `json:"company"`
-	CreatedAt string `json:"created_at"`
+	CreatedAt string `json:"-" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Difficulty string `json:"difficulty"`
 		Position   string `json:"position"`

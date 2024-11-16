@@ -2,11 +2,14 @@ package review
 
 import (
 	"context"
+	"review/app"
 	"review/config"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	ops "go.mongodb.org/mongo-driver/mongo/options"
+	"go.uber.org/zap"
 )
 
 type storage struct {
@@ -28,7 +31,6 @@ func (s *storage) GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCom
 
 	// check if pgsize is empty
 	// if yes set the default value
-	pgSize, pgNum = s.pgNumAndPgPage(pgSize, pgNum)
 
 	// find all
 	cursor, err := collection.Find(ctx, bson.M{}, ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
@@ -48,10 +50,17 @@ func (s *storage) GetReviewByOverview(ctx context.Context, companyDomain string,
 	collection := s.mongo.
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Overview)
-	pgSize, pgNum = s.pgNumAndPgPage(pgSize, pgNum)
+	app.GetLoggerFromCtx(ctx).Info("overview", zap.String("company", companyDomain),
+		zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum),
+		zap.Int("pgSize", pgSize), zap.Int("pgSize", pgSize))
 
 	// use pagination for frontend
-	cursor, err := collection.Find(ctx, bson.M{"company": companyDomain}, ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
+	cursor, err := collection.Find(ctx, bson.M{"company": companyDomain},
+		// use pagination for frontend and sort newest first
+		options.Find().
+			SetLimit(int64(pgSize)).
+			SetSkip(int64(pgSize*pgNum)).
+			SetSort(bson.M{"created_at": -1}))
 	if err != nil {
 		return nil, err
 	}
@@ -67,10 +76,14 @@ func (s *storage) GetReviewBySalary(ctx context.Context, companyDomain string, p
 	collection := s.mongo.
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Salary)
-	pgSize, pgNum = s.pgNumAndPgPage(pgSize, pgNum)
 
 	// use pagination for frontend
-	cursor, err := collection.Find(ctx, bson.M{"company": companyDomain}, ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
+	cursor, err := collection.Find(ctx, bson.M{"company": companyDomain},
+		options.Find().
+			SetLimit(int64(pgSize)).
+			SetSkip(int64(pgSize*pgNum)).
+			SetSort(bson.M{"created_at": -1}))
+
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +99,6 @@ func (s *storage) GetReviewByBenefit(ctx context.Context, companyDomain string, 
 	collection := s.mongo.
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Benefit)
-	pgSize, pgNum = s.pgNumAndPgPage(pgSize, pgNum)
 
 	// use pagination for frontend
 	cursor, err := collection.Find(ctx, bson.M{"company:": companyDomain}, ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
@@ -106,7 +118,6 @@ func (s *storage) GetReviewByInterview(ctx context.Context, companyDomain string
 	collection := s.mongo.
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Interview)
-	pgSize, pgNum = s.pgNumAndPgPage(pgSize, pgNum)
 
 	// use pagination for frontend
 	cursor, err := collection.Find(ctx, bson.M{"company": companyDomain}, ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
@@ -120,14 +131,4 @@ func (s *storage) GetReviewByInterview(ctx context.Context, companyDomain string
 	}
 
 	return reviews, nil
-}
-
-func (s *storage) pgNumAndPgPage(pgSize, pgNum int) (int, int) {
-	if pgSize == 0 {
-		pgSize = s.cfg.DefaultQueryValue.Pagesize
-	}
-	if pgNum == 0 {
-		pgNum = s.cfg.DefaultQueryValue.Pagenum
-	}
-	return pgSize, pgNum
 }

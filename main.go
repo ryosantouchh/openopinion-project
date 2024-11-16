@@ -40,7 +40,7 @@ func main() {
 	// service
 	reviewStorage := review.NewStorage(cfg.Mongo, mgc)
 	reviewService := review.NewService(reviewStorage)
-	reviewHandler := review.NewHandler(reviewService)
+	reviewHandler := review.NewHandler(cfg.DefaultQueryValue, reviewService)
 
 	// http server
 	server := echo.New()

@@ -16,9 +16,10 @@ func NewConfig() Config {
 }
 
 type Config struct {
-	LogLevel   string `env:"LOG_LEVEL" envDefault:"info"`
-	HttpServer HttpServer
-	Mongo      Mongo
+	LogLevel          string `env:"LOG_LEVEL" envDefault:"info"`
+	HttpServer        HttpServer
+	Mongo             Mongo
+	DefaultQueryValue DefaultQueryValue
 }
 type HttpServer struct {
 	Port            string        `env:"HTTP_SERVER_PORT" envDefault:"8080"`
@@ -45,8 +46,9 @@ type Mongo struct {
 		Benefit   string `env:"MONGO_COLLECTION_BENEFIT"`
 		Interview string `env:"MONGO_COLLECTION_INTERVIEW"`
 	}
-	DefaultQueryValue struct {
-		Pagesize int `env:"MONGO_DEFAULT_QUERY_VALUE_PAGESIZE" envDefault:"5"`
-		Pagenum  int `env:"MONGO_DEFAULT_QUERY_VALUE_PAGENUM" envDefault:"1"`
-	}
+}
+
+type DefaultQueryValue struct {
+	Pagesize int `env:"MONGO_DEFAULT_QUERY_VALUE_PAGESIZE" envDefault:"5"`
+	Pagenum  int `env:"MONGO_DEFAULT_QUERY_VALUE_PAGENUM" envDefault:"0"`
 }
