@@ -191,3 +191,29 @@ func (s *storage) GetReviewByInterview(ctx context.Context, companyDomain, postI
 
 	return reviews, nil
 }
+
+func (s *storage) CountReviewByCompanyAndType(ctx context.Context, companyDomain, t string) (int, error) {
+	var colName string
+	switch t {
+	case "overview":
+		colName = s.cfg.Collection.Overview
+	case "salary":
+		colName = s.cfg.Collection.Salary
+	case "benefit":
+		colName = s.cfg.Collection.Benefit
+	case "interview":
+		colName = s.cfg.Collection.Interview
+	default:
+		return 0, fmt.Errorf("invalid review type: %s", t)
+	}
+	collection := s.mongo.
+		Database(s.cfg.Database).
+		Collection(colName)
+
+	count, err := collection.CountDocuments(ctx, bson.M{"company": companyDomain})
+	if err != nil {
+		return 0, err
+	}
+
+	return int(count), nil
+}
