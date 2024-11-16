@@ -5,7 +5,7 @@ type OverView struct {
 		Address string `json:"address"`
 	} `json:"user"`
 	Company   string `json:"company"`
-	CreatedAt string `json:"-" bson:"created_at"` // Hidden from JSON, visible for BSON
+	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Position string `json:"position"`
 		Title    string `json:"title"`
@@ -19,7 +19,7 @@ type Salary struct {
 		Address string `json:"address"`
 	} `json:"user"`
 	Company   string `json:"company"`
-	CreatedAt string `json:"-" bson:"created_at"` // Hidden from JSON, visible for BSON
+	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Salary   string `json:"salary"`
 		Position string `json:"position"`
@@ -31,7 +31,7 @@ type Benefit struct {
 		Address string `json:"address"`
 	} `json:"user"`
 	Company   string `json:"company"`
-	CreatedAt string `json:"-" bson:"created_at"` // Hidden from JSON, visible for BSON
+	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Position        string `json:"position"`
 		Wfh             int    `json:"wfh"`
@@ -48,7 +48,7 @@ type Interview struct {
 		Address string `json:"address"`
 	} `json:"user"`
 	Company   string `json:"company"`
-	CreatedAt string `json:"-" bson:"created_at"` // Hidden from JSON, visible for BSON
+	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Difficulty string `json:"difficulty"`
 		Position   string `json:"position"`
