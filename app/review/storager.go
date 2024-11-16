@@ -31,7 +31,7 @@ func (s *storage) GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCom
 	pgSize, pgNum = s.pgNumAndPgPage(pgSize, pgNum)
 
 	// find all
-	cursor, err := collection.Find(ctx, bson.M{})
+	cursor, err := collection.Find(ctx, bson.M{}, ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
 	if err != nil {
 		return nil, err
 	}
