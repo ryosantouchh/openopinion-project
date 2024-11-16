@@ -7,6 +7,21 @@ from function_handling import (
 
 from groq import Groq
 from dotenv import load_dotenv
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class UserInput(BaseModel):
+    user_prompt: str
+
+@app.post("/query")
+async def user_input(user_input: UserInput):
+    try:
+        return function_calling(user_input.user_prompt)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 load_dotenv()
 print("Groq API key configuration: " + os.environ["GROQ_API_KEY"][:10] + "...")
@@ -153,7 +168,3 @@ def text_summary(text: str):
     return response.choices[0].message.content.strip()
 
 
-__name__ == "__main__"
-# get user inputs
-user_prompt = input("Please enter your question: ")
-print(function_calling(user_prompt))
