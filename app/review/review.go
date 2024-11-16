@@ -59,9 +59,10 @@ type Interview struct {
 	Company   string `json:"company"`
 	CreatedAt string `json:"created_at"`
 	Review    struct {
-		Position string `json:"position"`
-		Content  string `json:"content"`
-		Title    string `json:"title"`
+		Difficulty string `json:"difficulty"`
+		Position   string `json:"position"`
+		Content    string `json:"content"`
+		Title      string `json:"title"`
 	} `json:"review"`
 }
 
