@@ -43,12 +43,18 @@ func (h *handler) GetAllCompany(ec echo.Context) error {
 		if err != nil {
 			return ec.JSON(500, err)
 		}
+		if len(companies) == 0 {
+			return ec.JSON(404, "No company found")
+		}
 		return ec.JSON(200, companies)
 	default:
 		companyDomain := ec.QueryParam("companyId")
 		companies, err := h.svc.GetCompanyByName(ctx, companyDomain)
 		if err != nil {
 			return ec.JSON(500, err)
+		}
+		if companies.DomainName == "" {
+			return ec.JSON(404, "No company found")
 		}
 		return ec.JSON(200, companies)
 	}
@@ -62,6 +68,9 @@ func (h *handler) GetCompanyByName(ec echo.Context) error {
 	companies, err := h.svc.GetCompanyByName(ctx, companyDomain)
 	if err != nil {
 		return ec.JSON(500, err)
+	}
+	if companies.DomainName == "" {
+		return ec.JSON(404, "No company found")
 	}
 
 	return ec.JSON(200, companies)
@@ -83,6 +92,9 @@ func (h *handler) GetReviewByOverview(ec echo.Context) error {
 	if err != nil {
 		return ec.JSON(500, err)
 	}
+	if len(reviews) == 0 {
+		return ec.JSON(404, "No review found")
+	}
 
 	return ec.JSON(200, reviews)
 }
@@ -102,6 +114,9 @@ func (h *handler) GetReviewBySalary(ec echo.Context) error {
 	reviews, err := h.svc.GetReviewBySalary(ctx, companyDomain, pgSize, pgNum)
 	if err != nil {
 		return ec.JSON(500, err)
+	}
+	if len(reviews) == 0 {
+		return ec.JSON(404, "No review found")
 	}
 
 	return ec.JSON(200, reviews)
@@ -123,6 +138,9 @@ func (h *handler) GetReviewByBenefit(ec echo.Context) error {
 	if err != nil {
 		return ec.JSON(500, err)
 	}
+	if len(reviews) == 0 {
+		return ec.JSON(404, "No review found")
+	}
 
 	return ec.JSON(200, reviews)
 }
@@ -142,6 +160,9 @@ func (h *handler) GetReviewByInterview(ec echo.Context) error {
 	reviews, err := h.svc.GetReviewByInterview(ctx, companyDomain, pgSize, pgNum)
 	if err != nil {
 		return ec.JSON(500, err)
+	}
+	if len(reviews) == 0 {
+		return ec.JSON(404, "No review found")
 	}
 
 	return ec.JSON(200, reviews)
