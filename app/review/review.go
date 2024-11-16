@@ -46,7 +46,7 @@ type Benefit struct {
 	HealthInsurance int    `json:"health_insurance"`
 	CoursePaid      int    `json:"l_and_d"`
 	StockPlan       int    `json:"stock_plan"`
-	StockOption     int    `json:"stock_option"`
+	StockOption     int    `json:"stock_options"`
 	AnnualLeave     int    `json:"annual_leave"`
 	Review          struct {
 		Position        string `bson:"position" json:"-"`
