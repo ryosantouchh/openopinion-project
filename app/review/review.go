@@ -71,21 +71,21 @@ type ByCompany struct {
 			TotalCount int     `bson:"total_count" json:"-"` // Hidden from JSON, visible for BSON
 			TotalScore float32 `bson:"total_score" json:"-"` // Hidden from JSON, visible for BSON
 			Rating     float32 `bson:"-" json:"rating"`      // Calculated field for JSON only
-		} `bson:"1" json:"1"`
+		} `bson:"1" json:"overview"`
 		Salary struct {
 			TotalCount int     `bson:"total_count" json:"-"`
 			TotalScore float32 `bson:"total_score" json:"-"`
 			Rating     float32 `bson:"-" json:"rating"`
-		} `bson:"2" json:"2"`
+		} `bson:"2" json:"salary"`
 		Benefit struct {
 			TotalCount int     `bson:"total_count" json:"-"`
 			TotalScore float32 `bson:"total_score" json:"-"`
 			Rating     float32 `bson:"-" json:"rating"`
-		} `bson:"3" json:"3"`
+		} `bson:"3" json:"benefit"`
 		Interview struct {
 			TotalCount int     `bson:"total_count" json:"-"`
 			TotalScore float32 `bson:"total_score" json:"-"`
 			Rating     float32 `bson:"-" json:"rating"`
-		} `bson:"4" json:"4"`
+		} `bson:"4" json:"interview"`
 	} `bson:"review_score" json:"review_score"`
 }
