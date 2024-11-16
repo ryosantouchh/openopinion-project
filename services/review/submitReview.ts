@@ -2,6 +2,7 @@ import { isEmpty } from "lodash";
 
 import ReviewABI from "../../abi/ReviewABI.json";
 import ReviewABINew from "../../abi/ReviewABINew.json";
+import testABI from "../../abi/testABI.json";
 
 import { PinataSDK } from "pinata-web3";
 import { uploadToPinata } from "../pinata";
@@ -45,36 +46,28 @@ export async function submitReview({
       ...(!isEmpty(newBenefitReview) && newBenefitReview),
     };
 
-    // const generateNonce = () => {
-    //   return new Promise((resolve, reject) => {
-    //     randomBytes(32, (err, buffer) => {
-    //       if (err) {
-    //         reject(err);
-    //         return;
-    //       }
-    //
-    //       const nonce = Buffer.from(buffer).toString("base64");
-    //       resolve(nonce);
-    //     });
-    //   });
-    // };
-
     const pinataHash = await uploadToPinata(newReview);
 
-    const { commandPayload, finalPayload } =
-      await MiniKit.commandsAsync.sendTransaction({
-        transaction: [
-          {
-            address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
-            // address: process.env.NEXT_PUBLIC_REVIEW_CONTRACT_ADDRESS!,
-            abi: ReviewABINew,
-            functionName: "submitReview",
-            args: [companyName, ratingArray, pinataHash],
-          },
-        ],
-      });
+    const a = await MiniKit.commandsAsync.sendTransaction({
+      transaction: [
+        {
+          // address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
+          address: "0x8803e47fD253915F9c860837f391Aa71B3e03c5A",
+          // address: "0x2cFc85d8E48F8EAB294be644d9E25C3030863003",
+          // address: process.env.NEXT_PUBLIC_REVIEW_CONTRACT_ADDRESS!,
+          // abi: ReviewABINew,
+          abi: testABI,
+          functionName: "name",
+          // functionName: "submitReview",
+          // args: [companyName, ratingArray, pinataHash],
+          args: [],
+        },
+      ],
+    });
 
-    console.log(finalPayload);
+    console.log(a);
+    // console.log(commandPayload);
+    // console.log(finalPayload);
 
     return;
   } catch (error) {
