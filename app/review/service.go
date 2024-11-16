@@ -92,6 +92,12 @@ func (s *service) GetReviewByOverview(ctx context.Context, companyDomain, postId
 		logger.Error("Failed to get review by overview", zap.Error(err))
 		return nil, err
 	}
+	for i := range reviews {
+		reviews[i].Review.Content = reviews[i].Content
+		reviews[i].Review.Position = reviews[i].Position
+		reviews[i].Review.Title = reviews[i].Title
+		reviews[i].Review.Rating = reviews[i].Rating
+	}
 
 	logger.Debug("Get review by overview success")
 	return reviews, nil
@@ -106,6 +112,11 @@ func (s *service) GetReviewBySalary(ctx context.Context, companyDomain, postId s
 	if err != nil {
 		logger.Error("Failed to get review by salary", zap.Error(err))
 		return nil, err
+	}
+
+	for i := range reviews {
+		reviews[i].Review.Salary = reviews[i].Salary
+		reviews[i].Review.Position = reviews[i].Position
 	}
 
 	logger.Debug("Get review by salary success")
@@ -123,6 +134,16 @@ func (s *service) GetReviewByBenefit(ctx context.Context, companyDomain, postId 
 		return nil, err
 	}
 
+	for i := range reviews {
+		reviews[i].Review.Position = reviews[i].Position
+		reviews[i].Review.Wfh = reviews[i].Wfh
+		reviews[i].Review.HealthInsurance = reviews[i].HealthInsurance
+		reviews[i].Review.CoursePaid = reviews[i].CoursePaid
+		reviews[i].Review.StockPlan = reviews[i].StockPlan
+		reviews[i].Review.StockOption = reviews[i].StockOption
+		reviews[i].Review.AnnualLeave = reviews[i].AnnualLeave
+	}
+
 	logger.Debug("Get review by benefit success")
 	return reviews, nil
 }
@@ -136,6 +157,13 @@ func (s *service) GetReviewByInterview(ctx context.Context, companyDomain, postI
 	if err != nil {
 		logger.Error("Failed to get review by interview", zap.Error(err))
 		return nil, err
+	}
+
+	for i := range reviews {
+		reviews[i].Review.Position = reviews[i].Position
+		reviews[i].Review.Difficulty = reviews[i].Difficulty
+		reviews[i].Review.Content = reviews[i].Content
+		reviews[i].Review.Title = reviews[i].Title
 	}
 
 	logger.Debug("Get review by interview success")
