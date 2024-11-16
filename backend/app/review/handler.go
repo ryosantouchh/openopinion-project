@@ -97,6 +97,9 @@ func (h *handler) GetReviewByOverview(ec echo.Context) error {
 	if len(reviews) == 0 {
 		return ec.JSON(404, "No review found")
 	}
+	if postId != "" {
+		return ec.JSON(200, reviews[0])
+	}
 
 	return ec.JSON(200, reviews)
 }
@@ -120,6 +123,9 @@ func (h *handler) GetReviewBySalary(ec echo.Context) error {
 	}
 	if len(reviews) == 0 {
 		return ec.JSON(404, "No review found")
+	}
+	if postId != "" {
+		return ec.JSON(200, reviews[0])
 	}
 
 	return ec.JSON(200, reviews)
@@ -145,6 +151,9 @@ func (h *handler) GetReviewByBenefit(ec echo.Context) error {
 	if len(reviews) == 0 {
 		return ec.JSON(404, "No review found")
 	}
+	if postId != "" {
+		return ec.JSON(200, reviews[0])
+	}
 
 	return ec.JSON(200, reviews)
 }
@@ -168,6 +177,9 @@ func (h *handler) GetReviewByInterview(ec echo.Context) error {
 	}
 	if len(reviews) == 0 {
 		return ec.JSON(404, "No review found")
+	}
+	if postId != "" {
+		return ec.JSON(200, reviews[0])
 	}
 
 	return ec.JSON(200, reviews)
