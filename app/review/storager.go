@@ -2,14 +2,14 @@ package review
 
 import (
 	"context"
-	"review/app"
+	"fmt"
 	"review/config"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	ops "go.mongodb.org/mongo-driver/mongo/options"
-	"go.uber.org/zap"
 )
 
 type storage struct {
@@ -51,8 +51,6 @@ func (s *storage) GetCompanyByName(ctx context.Context, companyDomain string) (B
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Company)
 
-		// check if pgsize is empty
-		// if yes set the default value
 	var result ByCompany
 	// find one
 	resultUnBind := collection.FindOne(ctx, bson.M{"domain": companyDomain})
@@ -65,16 +63,23 @@ func (s *storage) GetCompanyByName(ctx context.Context, companyDomain string) (B
 
 }
 
-func (s *storage) GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error) {
+func (s *storage) GetReviewByOverview(ctx context.Context, companyDomain, postId string,
+	pgSize, pgNum int) ([]OverView, error) {
 	collection := s.mongo.
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Overview)
-	app.GetLoggerFromCtx(ctx).Info("overview", zap.String("company", companyDomain),
-		zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum),
-		zap.Int("pgSize", pgSize), zap.Int("pgSize", pgSize))
+	query := bson.M{"company": companyDomain}
+	// post id is id of record in mongo
+	if postId != "" {
+		objectID, err := primitive.ObjectIDFromHex(postId)
+		if err != nil {
+			return nil, fmt.Errorf("invalid post ID format: %w", err)
+		}
+		query = bson.M{"_id": objectID}
+	}
 
 	// use pagination for frontend
-	cursor, err := collection.Find(ctx, bson.M{"company": companyDomain},
+	cursor, err := collection.Find(ctx, query,
 		// use pagination for frontend and sort newest first
 		options.Find().
 			SetLimit(int64(pgSize)).
@@ -91,13 +96,24 @@ func (s *storage) GetReviewByOverview(ctx context.Context, companyDomain string,
 	return reviews, nil
 }
 
-func (s *storage) GetReviewBySalary(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Salary, error) {
+func (s *storage) GetReviewBySalary(ctx context.Context, companyDomain, postId string,
+	pgSize, pgNum int) ([]Salary, error) {
 	collection := s.mongo.
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Salary)
 
+	query := bson.M{"company": companyDomain}
+	// post id is id of record in mongo
+	if postId != "" {
+		objectID, err := primitive.ObjectIDFromHex(postId)
+		if err != nil {
+			return nil, fmt.Errorf("invalid post ID format: %w", err)
+		}
+		query = bson.M{"_id": objectID}
+	}
+
 	// use pagination for frontend
-	cursor, err := collection.Find(ctx, bson.M{"company": companyDomain},
+	cursor, err := collection.Find(ctx, query,
 		options.Find().
 			SetLimit(int64(pgSize)).
 			SetSkip(int64(pgSize*pgNum)).
@@ -114,13 +130,25 @@ func (s *storage) GetReviewBySalary(ctx context.Context, companyDomain string, p
 	return reviews, nil
 }
 
-func (s *storage) GetReviewByBenefit(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Benefit, error) {
+func (s *storage) GetReviewByBenefit(ctx context.Context, companyDomain, postId string,
+	pgSize, pgNum int) ([]Benefit, error) {
 	collection := s.mongo.
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Benefit)
 
+	query := bson.M{"company": companyDomain}
+	// post id is id of record in mongo
+	if postId != "" {
+		objectID, err := primitive.ObjectIDFromHex(postId)
+		if err != nil {
+			return nil, fmt.Errorf("invalid post ID format: %w", err)
+		}
+		query = bson.M{"_id": objectID}
+	}
+
 	// use pagination for frontend
-	cursor, err := collection.Find(ctx, bson.M{"company:": companyDomain}, ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
+	cursor, err := collection.Find(ctx, query,
+		ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
 	if err != nil {
 		return nil, err
 	}
@@ -133,13 +161,25 @@ func (s *storage) GetReviewByBenefit(ctx context.Context, companyDomain string, 
 	return reviews, nil
 }
 
-func (s *storage) GetReviewByInterview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Interview, error) {
+func (s *storage) GetReviewByInterview(ctx context.Context, companyDomain, postId string,
+	pgSize, pgNum int) ([]Interview, error) {
 	collection := s.mongo.
 		Database(s.cfg.Database).
 		Collection(s.cfg.Collection.Interview)
 
+	query := bson.M{"company": companyDomain}
+	// post id is id of record in mongo
+	if postId != "" {
+		objectID, err := primitive.ObjectIDFromHex(postId)
+		if err != nil {
+			return nil, fmt.Errorf("invalid post ID format: %w", err)
+		}
+		query = bson.M{"_id": objectID}
+	}
+
 	// use pagination for frontend
-	cursor, err := collection.Find(ctx, bson.M{"company": companyDomain}, ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
+	cursor, err := collection.Find(ctx, query,
+		ops.Find().SetLimit(int64(pgSize)).SetSkip(int64(pgSize*pgNum)))
 	if err != nil {
 		return nil, err
 	}

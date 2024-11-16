@@ -11,10 +11,10 @@ import (
 type Storager interface {
 	GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCompany, error)
 	GetCompanyByName(ctx context.Context, companyDomain string) (ByCompany, error)
-	GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error)
-	GetReviewBySalary(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Salary, error)
-	GetReviewByBenefit(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Benefit, error)
-	GetReviewByInterview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Interview, error)
+	GetReviewByOverview(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]OverView, error)
+	GetReviewBySalary(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Salary, error)
+	GetReviewByBenefit(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Benefit, error)
+	GetReviewByInterview(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Interview, error)
 }
 
 type service struct {
@@ -82,11 +82,12 @@ func calRating(totalCount int, totalScore float32) float32 {
 	return result
 }
 
-func (s *service) GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error) {
+func (s *service) GetReviewByOverview(ctx context.Context, companyDomain, postId string,
+	pgSize, pgNum int) ([]OverView, error) {
 	logger := app.GetLoggerFromCtx(ctx)
 	logger.Info("Get review by overview", zap.String("companyDomain", companyDomain), zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum))
 
-	reviews, err := s.storage.GetReviewByOverview(ctx, companyDomain, pgSize, pgNum)
+	reviews, err := s.storage.GetReviewByOverview(ctx, companyDomain, postId, pgSize, pgNum)
 	if err != nil {
 		logger.Error("Failed to get review by overview", zap.Error(err))
 		return nil, err
@@ -96,11 +97,12 @@ func (s *service) GetReviewByOverview(ctx context.Context, companyDomain string,
 	return reviews, nil
 }
 
-func (s *service) GetReviewBySalary(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Salary, error) {
+func (s *service) GetReviewBySalary(ctx context.Context, companyDomain, postId string,
+	pgSize, pgNum int) ([]Salary, error) {
 	logger := app.GetLoggerFromCtx(ctx)
 	logger.Info("Get review by salary", zap.String("companyDomain", companyDomain), zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum))
 
-	reviews, err := s.storage.GetReviewBySalary(ctx, companyDomain, pgSize, pgNum)
+	reviews, err := s.storage.GetReviewBySalary(ctx, companyDomain, postId, pgSize, pgNum)
 	if err != nil {
 		logger.Error("Failed to get review by salary", zap.Error(err))
 		return nil, err
@@ -110,11 +112,12 @@ func (s *service) GetReviewBySalary(ctx context.Context, companyDomain string, p
 	return reviews, nil
 }
 
-func (s *service) GetReviewByBenefit(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Benefit, error) {
+func (s *service) GetReviewByBenefit(ctx context.Context, companyDomain, postId string,
+	pgSize, pgNum int) ([]Benefit, error) {
 	logger := app.GetLoggerFromCtx(ctx)
 	logger.Info("Get review by benefit", zap.String("companyDomain", companyDomain), zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum))
 
-	reviews, err := s.storage.GetReviewByBenefit(ctx, companyDomain, pgSize, pgNum)
+	reviews, err := s.storage.GetReviewByBenefit(ctx, companyDomain, postId, pgSize, pgNum)
 	if err != nil {
 		logger.Error("Failed to get review by benefit", zap.Error(err))
 		return nil, err
@@ -124,11 +127,12 @@ func (s *service) GetReviewByBenefit(ctx context.Context, companyDomain string, 
 	return reviews, nil
 }
 
-func (s *service) GetReviewByInterview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Interview, error) {
+func (s *service) GetReviewByInterview(ctx context.Context, companyDomain, postId string,
+	pgSize, pgNum int) ([]Interview, error) {
 	logger := app.GetLoggerFromCtx(ctx)
 	logger.Info("Get review by interview", zap.String("companyDomain", companyDomain), zap.Int("pgSize", pgSize), zap.Int("pgNum", pgNum))
 
-	reviews, err := s.storage.GetReviewByInterview(ctx, companyDomain, pgSize, pgNum)
+	reviews, err := s.storage.GetReviewByInterview(ctx, companyDomain, postId, pgSize, pgNum)
 	if err != nil {
 		logger.Error("Failed to get review by interview", zap.Error(err))
 		return nil, err

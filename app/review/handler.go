@@ -11,10 +11,10 @@ import (
 type servicer interface {
 	GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCompany, error)
 	GetCompanyByName(ctx context.Context, companyDomain string) (ByCompany, error)
-	GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error)
-	GetReviewBySalary(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Salary, error)
-	GetReviewByBenefit(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Benefit, error)
-	GetReviewByInterview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Interview, error)
+	GetReviewByOverview(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]OverView, error)
+	GetReviewBySalary(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Salary, error)
+	GetReviewByBenefit(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Benefit, error)
+	GetReviewByInterview(ctx context.Context, companyDomain, postId string, pgSize, pgNum int) ([]Interview, error)
 }
 
 type handler struct {
@@ -79,6 +79,8 @@ func (h *handler) GetCompanyByName(ec echo.Context) error {
 func (h *handler) GetReviewByOverview(ec echo.Context) error {
 	ctx := ec.Request().Context()
 	companyDomain := ec.QueryParam("companyId")
+	postId := ec.QueryParam("postId")
+
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
 		pgSize = h.cfg.Pagesize
@@ -88,7 +90,7 @@ func (h *handler) GetReviewByOverview(ec echo.Context) error {
 		pgNum = h.cfg.Pagenum
 	}
 
-	reviews, err := h.svc.GetReviewByOverview(ctx, companyDomain, pgSize, pgNum)
+	reviews, err := h.svc.GetReviewByOverview(ctx, companyDomain, postId, pgSize, pgNum)
 	if err != nil {
 		return ec.JSON(500, err)
 	}
@@ -102,6 +104,7 @@ func (h *handler) GetReviewByOverview(ec echo.Context) error {
 func (h *handler) GetReviewBySalary(ec echo.Context) error {
 	ctx := ec.Request().Context()
 	companyDomain := ec.QueryParam("companyId")
+	postId := ec.QueryParam("postId")
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
 		pgSize = h.cfg.Pagesize
@@ -111,7 +114,7 @@ func (h *handler) GetReviewBySalary(ec echo.Context) error {
 		pgNum = h.cfg.Pagenum
 	}
 
-	reviews, err := h.svc.GetReviewBySalary(ctx, companyDomain, pgSize, pgNum)
+	reviews, err := h.svc.GetReviewBySalary(ctx, companyDomain, postId, pgSize, pgNum)
 	if err != nil {
 		return ec.JSON(500, err)
 	}
@@ -125,6 +128,7 @@ func (h *handler) GetReviewBySalary(ec echo.Context) error {
 func (h *handler) GetReviewByBenefit(ec echo.Context) error {
 	ctx := ec.Request().Context()
 	companyDomain := ec.QueryParam("companyId")
+	postId := ec.QueryParam("postId")
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
 		pgSize = h.cfg.Pagesize
@@ -134,7 +138,7 @@ func (h *handler) GetReviewByBenefit(ec echo.Context) error {
 		pgNum = h.cfg.Pagenum
 	}
 
-	reviews, err := h.svc.GetReviewByBenefit(ctx, companyDomain, pgSize, pgNum)
+	reviews, err := h.svc.GetReviewByBenefit(ctx, companyDomain, postId, pgSize, pgNum)
 	if err != nil {
 		return ec.JSON(500, err)
 	}
@@ -148,6 +152,7 @@ func (h *handler) GetReviewByBenefit(ec echo.Context) error {
 func (h *handler) GetReviewByInterview(ec echo.Context) error {
 	ctx := ec.Request().Context()
 	companyDomain := ec.QueryParam("companyId")
+	postId := ec.QueryParam("postId")
 	pgSize, err := strconv.Atoi(ec.QueryParam("pageSize"))
 	if err != nil {
 		pgSize = h.cfg.Pagesize
@@ -157,7 +162,7 @@ func (h *handler) GetReviewByInterview(ec echo.Context) error {
 		pgNum = h.cfg.Pagenum
 	}
 
-	reviews, err := h.svc.GetReviewByInterview(ctx, companyDomain, pgSize, pgNum)
+	reviews, err := h.svc.GetReviewByInterview(ctx, companyDomain, postId, pgSize, pgNum)
 	if err != nil {
 		return ec.JSON(500, err)
 	}

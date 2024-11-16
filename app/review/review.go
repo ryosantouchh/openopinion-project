@@ -4,7 +4,8 @@ type OverView struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Company   string `json:"id" bson:"company"`            // Hidden from JSON, visible for BSON
+	RecordId  string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
+	CompanyId string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Position string `json:"position"`
@@ -18,7 +19,8 @@ type Salary struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Company   string `json:"id" bson:"company"`
+	RecordId  string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
+	CompanyId string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Salary   string `json:"salary"`
@@ -30,7 +32,8 @@ type Benefit struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Company   string `json:"id" bson:"company"`
+	RecordId  string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
+	CompanyId string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Position        string `json:"position"`
@@ -47,7 +50,8 @@ type Interview struct {
 	User struct {
 		Address string `json:"address"`
 	} `json:"user"`
-	Company   string `json:"id" bson:"company"`            // Hidden from JSON, visible for BSON
+	RecordId  string `json:"record_id" bson:"_id"`         // Hidden from JSON, visible for BSON
+	CompanyId string `json:"company_id" bson:"company"`    // Hidden from JSON, visible for BSON
 	CreatedAt string `json:"created_at" bson:"created_at"` // Hidden from JSON, visible for BSON
 	Review    struct {
 		Difficulty string `json:"difficulty"`
