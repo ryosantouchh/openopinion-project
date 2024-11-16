@@ -10,6 +10,7 @@ import (
 
 type servicer interface {
 	GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCompany, error)
+	GetCompanyByName(ctx context.Context, companyDomain string) (ByCompany, error)
 	GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error)
 	GetReviewBySalary(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Salary, error)
 	GetReviewByBenefit(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Benefit, error)
@@ -36,7 +37,29 @@ func (h *handler) GetAllCompany(ec echo.Context) error {
 		pgNum = h.cfg.Pagenum
 	}
 
-	companies, err := h.svc.GetAllCompany(ctx, pgSize, pgNum)
+	switch ec.QueryParam("companyId") {
+	case "":
+		companies, err := h.svc.GetAllCompany(ctx, pgSize, pgNum)
+		if err != nil {
+			return ec.JSON(500, err)
+		}
+		return ec.JSON(200, companies)
+	default:
+		companyDomain := ec.QueryParam("companyId")
+		companies, err := h.svc.GetCompanyByName(ctx, companyDomain)
+		if err != nil {
+			return ec.JSON(500, err)
+		}
+		return ec.JSON(200, companies)
+	}
+
+}
+
+func (h *handler) GetCompanyByName(ec echo.Context) error {
+	ctx := ec.Request().Context()
+	companyDomain := ec.QueryParam("companyId")
+
+	companies, err := h.svc.GetCompanyByName(ctx, companyDomain)
 	if err != nil {
 		return ec.JSON(500, err)
 	}

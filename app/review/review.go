@@ -59,7 +59,7 @@ type Interview struct {
 
 type ByCompany struct {
 	Name        string `bson:"name" json:"name"`
-	DomainName  string `bson:"domain_name" json:"domain_name"`
+	DomainName  string `bson:"domain" json:"domain"`
 	Description string `bson:"description" json:"description"`
 	StaffRange  string `bson:"staff_range" json:"staff_range"`
 	Score       struct {

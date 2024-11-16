@@ -14,6 +14,7 @@ import (
 	"syscall"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
 )
 
@@ -44,6 +45,12 @@ func main() {
 
 	// http server
 	server := echo.New()
+
+	server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*", "*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
+
 	server.Use(mw.HealthCheck())
 	server.Use(mw.NewLoggerWithRequestId(logger))
 	server.GET(cfg.HttpServer.Path.GetAllCompany, reviewHandler.GetAllCompany)

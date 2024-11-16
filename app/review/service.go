@@ -10,6 +10,7 @@ import (
 
 type Storager interface {
 	GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCompany, error)
+	GetCompanyByName(ctx context.Context, companyDomain string) (ByCompany, error)
 	GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error)
 	GetReviewBySalary(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Salary, error)
 	GetReviewByBenefit(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]Benefit, error)
@@ -45,6 +46,25 @@ func (s *service) GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCom
 
 	logger.Debug("Get all company success")
 	return companyList, nil
+}
+
+func (s *service) GetCompanyByName(ctx context.Context, companyDomain string) (ByCompany, error) {
+	logger := app.GetLoggerFromCtx(ctx)
+	logger.Info("Get 1 company")
+	companyList, err := s.storage.GetCompanyByName(ctx, companyDomain)
+	if err != nil {
+		logger.Error("Failed to get all company", zap.Error(err))
+		return ByCompany{}, nil
+	}
+
+	companyList.Score.Overview.Rating = calRating(companyList.Score.Overview.TotalCount, companyList.Score.Overview.TotalScore)
+	companyList.Score.Salary.Rating = calRating(companyList.Score.Salary.TotalCount, companyList.Score.Salary.TotalScore)
+	companyList.Score.Benefit.Rating = calRating(companyList.Score.Benefit.TotalCount, companyList.Score.Benefit.TotalScore)
+	companyList.Score.Interview.Rating = calRating(companyList.Score.Interview.TotalCount, companyList.Score.Interview.TotalScore)
+
+	logger.Debug("Get 1 company success")
+	return companyList, nil
+
 }
 
 func calRating(totalCount int, totalScore float32) float32 {

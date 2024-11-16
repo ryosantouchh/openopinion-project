@@ -46,6 +46,25 @@ func (s *storage) GetAllCompany(ctx context.Context, pgSize, pgNum int) ([]ByCom
 	return companies, nil
 }
 
+func (s *storage) GetCompanyByName(ctx context.Context, companyDomain string) (ByCompany, error) {
+	collection := s.mongo.
+		Database(s.cfg.Database).
+		Collection(s.cfg.Collection.Company)
+
+		// check if pgsize is empty
+		// if yes set the default value
+	var result ByCompany
+	// find one
+	resultUnBind := collection.FindOne(ctx, bson.M{"domain": companyDomain})
+	err := resultUnBind.Decode(&result)
+	if err != nil {
+		return result, err
+	}
+
+	return result, nil
+
+}
+
 func (s *storage) GetReviewByOverview(ctx context.Context, companyDomain string, pgSize, pgNum int) ([]OverView, error) {
 	collection := s.mongo.
 		Database(s.cfg.Database).
