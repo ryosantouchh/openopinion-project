@@ -51,23 +51,15 @@ export async function submitReview({
     const a = await MiniKit.commandsAsync.sendTransaction({
       transaction: [
         {
-          // address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
-          address: "0x8803e47fD253915F9c860837f391Aa71B3e03c5A",
-          // address: "0x2cFc85d8E48F8EAB294be644d9E25C3030863003",
-          // address: process.env.NEXT_PUBLIC_REVIEW_CONTRACT_ADDRESS!,
-          // abi: ReviewABINew,
-          abi: testABI,
-          functionName: "name",
-          // functionName: "submitReview",
-          // args: [companyName, ratingArray, pinataHash],
-          args: [],
+          address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
+          abi: ReviewABINew,
+          functionName: "submitReview",
+          args: [companyName, ratingArray, pinataHash],
         },
       ],
     });
 
     console.log(a);
-    // console.log(commandPayload);
-    // console.log(finalPayload);
 
     return;
   } catch (error) {
