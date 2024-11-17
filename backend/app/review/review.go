@@ -77,15 +77,15 @@ type Interview struct {
 		Title      string `bson:"title" json:"-"`
 	} `json:"-" bson:"review"`
 }
-
 type ByCompany struct {
 	Name           string `bson:"name" json:"name"`
 	DomainName     string `bson:"domain" json:"id"`
+	LogoUrl        string `bson:"logourl" json:"logourl"`
 	Description    string `bson:"description" json:"description"`
 	StaffRange     string `bson:"staff_range" json:"staff_range"`
-	CountReview    int    `json:"countReviews" bson:"-"`
-	CountInterview int    `json:"countInterviews" bson:"-"`
-	CountSal       int    `json:"countSalalaries" bson:"-"`
+	CountReview    int    `json:"reviewCount" bson:"-"`
+	CountInterview int    `json:"jobCount" bson:"-"`
+	CountSal       int    `json:"salaryCount" bson:"-"`
 	Score          struct {
 		Overview struct {
 			TotalCount int     `bson:"total_count" json:"-"` // Hidden from JSON, visible for BSON

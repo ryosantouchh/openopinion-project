@@ -2,9 +2,7 @@
 
 import React, { useState } from "react";
 
-import ReviewABI from "../../abi/ReviewABI.json";
-import ReviewABINew from "../../abi/ReviewABINew.json";
-import testABI from "../../abi/testABI.json";
+import ReviewABINew from "@/abi/ReviewABINew.json";
 
 import { Button, Input } from "@nextui-org/react";
 import { cn } from "@nextui-org/react";

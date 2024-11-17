@@ -4,15 +4,17 @@ import React from "react";
 import { User, Chip } from "@nextui-org/react";
 import Link from 'next/link'
 import { getChipColor } from "@/app/utils/chip";
+import { getImageUrl, obscureName } from "@/app/utils/name";
 import { Difficulty } from "@/app/consts/difficulty";
+
 export type ReviewInterviewType = {
-    id: string;
+    record_id: string;
     user: {
-        name: string;
+        address: string;
         avatar: string;
     };
     created_at: string;
-    difficulty: Difficulty;
+    difficulty: string;
     title: string;
     content: string;
 };
@@ -21,14 +23,14 @@ export type ReviewInterviewProps = React.HTMLAttributes<HTMLDivElement> & Review
 
 
 export const ReviewCardInterview = React.forwardRef<HTMLDivElement, ReviewInterviewProps>(
-    ({ children, user, title, content, created_at, difficulty, id, ...props }, ref) => (
+    ({ children, user, title, content, created_at, difficulty, record_id: id, ...props }, ref) => (
         <Link href={`/reviews/interview/${id}`}>
             <div ref={ref} {...props} className="border-b pb-4 mb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <User
                             avatarProps={{
-                                src: user.avatar,
+                                src: getImageUrl(user.address),
                             }}
                             classNames={{
                                 name: "font-medium",
@@ -39,7 +41,7 @@ export const ReviewCardInterview = React.forwardRef<HTMLDivElement, ReviewInterv
                                 day: "numeric",
                                 year: "numeric",
                             }).format(new Date(created_at))}
-                            name={user.name}
+                            name={obscureName(user.address)}
                         />
                     </div>
                     <div className="flex items-center gap-1">
