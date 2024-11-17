@@ -17,6 +17,7 @@
     "@worldcoin/minikit-js": "1.1.1",
     "@worldcoin/minikit-react": "^1.2.0",
     "axios": "^1.7.7",
+    "bytes32": "^0.0.3",
     "eruda": "^3.2.3",
     "framer-motion": "^11.11.17",
     "lodash": "^4.17.21",
@@ -26,6 +27,7 @@
     "react": "^18",
     "react-dom": "^18",
     "viem": "^2.21.45",
+    "web3": "^4.15.0",
     "zustand": "^5.0.1"
   },
   "devDependencies": {

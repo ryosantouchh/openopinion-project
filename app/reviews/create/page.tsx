@@ -40,6 +40,7 @@ export async function submitReview({
     // NOTE : sequence of value inside this array should be placed like below
     // TODO : check type in any new object below
     const ratingArray = [
+      // 4, 1, 3, 4,
       isEmpty(newOverviewReview) ? 0 : newOverviewReview.rating,
       isEmpty(newInterviewReview) ? 0 : newInterviewReview.rating,
       isEmpty(newSalaryReview) ? 0 : newSalaryReview.rating,
@@ -54,43 +55,16 @@ export async function submitReview({
 
     const pinataHash = await uploadToPinata(newReview);
 
-    // const a = MiniKit.commands.sendTransaction({
-    //   transaction: [
-    //     {
-    //       // address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
-    //       address: "0x8803e47fD253915F9c860837f391Aa71B3e03c5A",
-    //       // address: "0x2cFc85d8E48F8EAB294be644d9E25C3030863003",
-    //       // address: process.env.NEXT_PUBLIC_REVIEW_CONTRACT_ADDRESS!,
-    //       // abi: ReviewABINew,
-    //       abi: testABI,
-    //       functionName: "name",
-    //       // functionName: "submitReview",
-    //       // args: [companyName, ratingArray, pinataHash],
-    //       args: [],
-    //     },
-    //   ],
-    // });
-
-    const { commandPayload, finalPayload } =
-      await MiniKit.commandsAsync.sendTransaction({
-        transaction: [
-          {
-            address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
-            // address: "0x8803e47fD253915F9c860837f391Aa71B3e03c5A",
-            // address: "0x2cFc85d8E48F8EAB294be644d9E25C3030863003",
-            // address: process.env.NEXT_PUBLIC_REVIEW_CONTRACT_ADDRESS!,
-            abi: ReviewABINew,
-            // abi: testABI,
-            // functionName: "name",
-            functionName: "submitReview",
-            args: [companyName, ratingArray, pinataHash],
-            // args: [],
-          },
-        ],
-      });
-
-    // console.log(commandPayload);
-    // console.log(finalPayload);
+    const finalPayload = MiniKit.commands.sendTransaction({
+      transaction: [
+        {
+          address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
+          abi: ReviewABINew,
+          functionName: "submitReview",
+          args: [companyName, ratingArray, pinataHash],
+        },
+      ],
+    });
 
     return;
   } catch (error) {
