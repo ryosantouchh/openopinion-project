@@ -28,7 +28,7 @@ export default function AiChatComponent() {
         setLoading(true); // Set loading to true when the request starts
 
         try {
-            const response = await fetch("http://localhost:8000/query", {
+            const response = await fetch("http://127.0.0.1:8000/query", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -12,10 +12,8 @@ import {
     NavbarMenuItem,
     NavbarMenuToggle,
     Link,
-    Button,
     Divider,
 } from "@nextui-org/react";
-import { Icon } from "@iconify/react";
 import { cn } from "@nextui-org/react";
 
 import { AcmeIcon } from "./acme";
