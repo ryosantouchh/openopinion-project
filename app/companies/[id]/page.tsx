@@ -27,18 +27,21 @@ export default function CompanyDetailsPage() {
             const response = await fetch(buildUrl(`company?companyId=${id}`));
             if (!response.ok) throw new Error('Failed to fetch company data');
             const data = await response.json();
-            console.log('Fetched company by id data:', data);
+            console.log(data)
             setCompany(data);
         } catch (error) {
             console.error('Error fetching company:', error);
+            alert('Unable to load company details. Please try again later.');
         }
-    }
+    };
+
 
     const fetchReviews = async () => {
         try {
             let reviews;
             if (activeTab === "overview") {
                 reviews = await fetchOverviewReviews(id as string);
+                console.log(reviews)
                 setOverviewReviews(reviews);
             } else if (activeTab === "interviews") {
                 reviews = await fetchInterviewReviews(id as string);
@@ -60,6 +63,9 @@ export default function CompanyDetailsPage() {
         fetchReviews();
     }, [activeTab, id]);
 
+    useEffect(() => {
+    }, [overviewReviews, salaryReviews, interviewReviews, benefitsReviews])
+
     return (
         <div>
             {/* Company Banner */}
@@ -72,7 +78,7 @@ export default function CompanyDetailsPage() {
                 <Avatar
                     className="h-16 w-16 translate-y-[-20%]"
                     radius="sm"
-                    src="https://avatars.githubusercontent.com/u/1063907?v=4"
+                    src={company?.logourl || "https://avatars.githubusercontent.com/u/1063907?v=4"}
                     alt="Company Logo"
                 />
                 <div className="flex items-end justify-between">
@@ -112,7 +118,7 @@ export default function CompanyDetailsPage() {
                     <Tab key="interviews" title="Interviews">
                         {interviewReviews.length > 0 ? (
                             interviewReviews.map((review) => (
-                                <ReviewCardInterview key={review.id} {...review} />
+                                <ReviewCardInterview key={review.record_id} {...review} />
                             ))
                         ) : (
                             <p>No interview reviews available.</p>
@@ -131,7 +137,7 @@ export default function CompanyDetailsPage() {
                     <Tab key="benefits" title="Benefits">
                         {benefitsReviews.length > 0 ? (
                             benefitsReviews.map((review) => (
-                                <ReviewCardBenefits key={review?.id} {...review} />
+                                <ReviewCardBenefits key={review?.record_id} {...review} />
                             ))
                         ) : (
                             <p>No benefits reviews available.</p>
@@ -146,7 +152,11 @@ export default function CompanyDetailsPage() {
 async function fetchOverviewReviews(companyId: string): Promise<ReviewOverviewType[]> {
     const response = await fetch(buildUrl(`overview?companyId=${companyId}`));
     const data = await response.json();
-    console.log(data);
+    // console.log("Overview Reviews:", data);
+
+    if (data?.user?.address) {
+        data.user.avatar = getImageUrl(data.user.address);
+    }
     return data;
 
     // return [
@@ -170,7 +180,7 @@ async function fetchOverviewReviews(companyId: string): Promise<ReviewOverviewTy
 }
 
 async function fetchInterviewReviews(companyId: string): Promise<ReviewInterviewType[]> {
-    const response = await fetch(buildUrl(`company/reviews/interview/?companyId=${companyId}`));
+    const response = await fetch(buildUrl(`interview?companyId=${companyId}`));
     const data = await response.json();
     console.log(data);
     return data;
@@ -220,7 +230,7 @@ async function fetchInterviewReviews(companyId: string): Promise<ReviewInterview
 }
 
 async function fetchSalaryReviews(companyId: string): Promise<ReviewSalaryType[]> {
-    const response = await fetch(buildUrl(`company/reviews/salary/?companyId=${companyId}`));
+    const response = await fetch(buildUrl(`salary?companyId=${companyId}`));
     const data = await response.json();
     console.log(data);
     return data;
@@ -244,7 +254,7 @@ async function fetchSalaryReviews(companyId: string): Promise<ReviewSalaryType[]
 }
 
 async function fetchBenefitsReviews(companyId: string): Promise<ReviewBenefitsType[]> {
-    const response = await fetch(buildUrl(`company/reviews/benefits/?companyId=${companyId}`));
+    const response = await fetch(buildUrl(`benefits?companyId=${companyId}`));
     const data = await response.json();
     console.log(data);
     return data;

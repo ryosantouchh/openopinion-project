@@ -1,16 +1,16 @@
 import { Difficulty } from "@/app/consts/difficulty";
 
-export const getChipColor = (difficulty: Difficulty) => {
+export const getChipColor = (difficulty: string) => {
     switch (difficulty) {
-        case Difficulty.VERY_EASY:
+        case "very easy":
             return "bg-green-200";
-        case Difficulty.EASY:
+        case "easy":
             return "bg-blue-200";
-        case Difficulty.MEDIUM:
+        case "medium":
             return "bg-yellow-200";
-        case Difficulty.HARD:
+        case "hard":
             return "bg-orange-200";
-        case Difficulty.VERY_HARD:
+        case "very hard":
             return "bg-red-200";
         default:
             return "bg-gray-200";

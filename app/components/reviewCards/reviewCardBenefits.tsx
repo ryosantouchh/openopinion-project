@@ -10,11 +10,13 @@ import HealthInsuranceIcon from "@/public/icons/healthInsuranceIcon";
 import StockPlanIcon from "@/public/icons/stockPlan";
 import LAndDIcon from "@/public/icons/lAndDIcon";
 import VacationIcon from "@/public/icons/vacationIcon";
+import { getAddress } from "viem";
+import { getImageUrl, obscureName } from "@/app/utils/name";
 
 export type ReviewBenefitsType = {
-    id: string;
+    record_id: string;
     user: {
-        name: string;
+        address: string;
         avatar: string;
     };
     health_insurance: number;
@@ -38,14 +40,14 @@ const BenefitItem = ({ icon: Icon, label, value }: { icon: React.ElementType, la
 );
 
 export const ReviewCardBenefits = React.forwardRef<HTMLDivElement, ReviewBenefitsProps>(
-    ({ user, health_insurance, stock_plan, stock_options, annual_leave, l_and_d, created_at, id, ...props }, ref) => (
+    ({ user, health_insurance, stock_plan, stock_options, annual_leave, l_and_d, created_at, record_id: id, ...props }, ref) => (
         // <Link href={`/reviews/benefits/${id}`}>
         <div ref={ref} {...props} className="border-b pb-4 mb-4 bg-white shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex items-center justify-between p-4">
                 <div className="flex items-center gap-2">
                     <User
                         avatarProps={{
-                            src: user.avatar,
+                            src: getImageUrl(user.address),
                         }}
                         classNames={{
                             name: "font-medium text-lg",
@@ -56,7 +58,7 @@ export const ReviewCardBenefits = React.forwardRef<HTMLDivElement, ReviewBenefit
                             day: "numeric",
                             year: "numeric",
                         }).format(new Date(created_at))}
-                        name={user.name}
+                        name={obscureName(user.address)}
                     />
                 </div>
             </div>

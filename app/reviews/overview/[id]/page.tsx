@@ -31,7 +31,7 @@ export default function OverviewReviewPage() {
         try {
             const response = await fetch(buildUrl(`overview?postId=${id}`));
             const data = await response.json();
-            data.user.avatar = obscureName(data.user.address || "");
+            data.user.avatar = obscureName(data?.user?.address || "");
             setReview(data);
             console.log("Review data:", review);
         } catch (error) {

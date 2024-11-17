@@ -5,10 +5,11 @@ import { User } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@nextui-org/react";
 import Link from 'next/link'
+import { getImageUrl, obscureName } from "@/app/utils/name";
 export type ReviewOverviewType = {
     record_id: string;
     user: {
-        name: string;
+        address: string;
         avatar: string;
     };
     created_at: string;
@@ -27,7 +28,7 @@ export const ReviewCardOverview = React.forwardRef<HTMLDivElement, ReviewOvervie
                     <div className="flex items-center gap-2">
                         <User
                             avatarProps={{
-                                src: user.avatar,
+                                src: getImageUrl(user.address),
                             }}
                             classNames={{
                                 name: "font-medium",
@@ -38,7 +39,7 @@ export const ReviewCardOverview = React.forwardRef<HTMLDivElement, ReviewOvervie
                                 day: "numeric",
                                 year: "numeric",
                             }).format(new Date(created_at))}
-                            name={user.name}
+                            name={obscureName(user.address)}
                         />
                     </div>
                     <div className="flex items-center gap-1">

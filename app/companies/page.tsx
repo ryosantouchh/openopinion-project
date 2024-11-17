@@ -27,7 +27,7 @@ export default function CompaniesPage() {
 
     useEffect(() => {
         fetchCompanies();
-        setCompanies(mockCompanies);
+        // setCompanies(mockCompanies);
     }, []);
 
     return (
@@ -47,9 +47,9 @@ export default function CompaniesPage() {
                     name={company.name}
                     logoUrl={company.logoUrl}
                     avgRating={company.avgRating}
-                    reviewCount={12}
-                    salaryCount={15}
-                    jobCount={17}
+                    reviewCount={company.reviewCount}
+                    salaryCount={company.salaryCount}
+                    jobCount={company.jobCount}
                 />
             ))}
         </div>
