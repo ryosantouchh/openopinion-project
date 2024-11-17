@@ -8,7 +8,7 @@ import Link from "next/link";
 type CompanyCardProps = {
     id: string;
     name: string;
-    logoUrl: string;
+    logourl: string;
     avgRating: number;
     reviewCount: number;
     salaryCount: number;
@@ -18,7 +18,7 @@ type CompanyCardProps = {
 export default function CompanyCard({
     id,
     name,
-    logoUrl,
+    logourl,
     avgRating,
     reviewCount,
     salaryCount,
@@ -33,7 +33,7 @@ export default function CompanyCard({
                             <Avatar
                                 className="h-16 w-16 border-2 border-gray-200"
                                 radius="sm"
-                                src={logoUrl}
+                                src={logourl}
                                 alt="Company Logo"
                             />
                             <h2 className="text-2xl font-bold text-gray-800">{name}</h2>

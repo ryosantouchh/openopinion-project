@@ -25,28 +25,34 @@ export default function AiChatComponent() {
         setPrompt("");
         setResponse("...");
         setSentMessage(prompt);
+        setLoading(true); // Set loading to true when the request starts
 
         try {
-            const response = await fetch(buildUrl("ai"), {
+            const response = await fetch("http://localhost:8000/query", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ prompt })
+                body: JSON.stringify({ user_prompt: prompt })
             });
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             const data = await response.json();
-            setResponse(data.message);
+            setResponse(data);
         } catch (error) {
             console.error("Error fetching AI response:", error);
+            setResponse("An error occurred while fetching the response. Please try again.");
         } finally {
             setLoading(false);
         }
     };
 
     const ideas = [
-        "Create a blog post about NextUI explaining it in simple terms",
-        "Give me 10 ideas for my next blog post, only the best ones!",
+        "Give me the average salary working as a Designer at adobe",
+        "Tell me about S/W engineer interview at meta.com",
     ];
 
     return (
