@@ -1,6 +1,6 @@
 "use client";
 
-// import { Web3 } from "web3";
+import { Web3 } from "web3";
 
 import ReviewABI from "../../abi/ReviewABI.json";
 import ReviewABINew from "../../abi/ReviewABINew.json";
@@ -14,6 +14,7 @@ import { uploadToPinata } from "@/services/pinata/uploadToPinata";
 import { Button } from "@nextui-org/react";
 import {
   ISuccessResult,
+  MiniAppSendTransactionPayload,
   MiniAppVerifyActionPayload,
   MiniKit,
   ResponseEvent,
@@ -23,8 +24,8 @@ import { isEmpty } from "lodash";
 
 import { useWaitForTransactionReceipt } from "@worldcoin/minikit-react";
 import { createPublicClient, http, PublicClient } from "viem";
-import { worldchainSepolia } from "viem/chains";
-import { useState } from "react";
+import { worldchainSepolia as worldchainSepoliaData } from "viem/chains";
+import { useEffect, useState } from "react";
 
 export default function TestComponent() {
   const [transactionId, setTransactionId] = useState<string>("");
@@ -60,6 +61,12 @@ export default function TestComponent() {
         isEmpty(newSalaryReview) ? 0 : newSalaryReview.rating,
         isEmpty(newBenefitReview) ? 0 : newBenefitReview.rating,
       ];
+
+      // const ratingArray = [
+      //   1000000000000000000, 2000000000000000000, 3000000000000000000,
+      //   4000000000000000000,
+      // ];
+
       const newReview = {
         ...(!isEmpty(newOverviewReview) && newOverviewReview),
         ...(!isEmpty(newInterviewReview) && newInterviewReview),
@@ -69,17 +76,37 @@ export default function TestComponent() {
 
       const pinataHash = await uploadToPinata(newReview);
 
-      const { commandPayload, finalPayload } =
-        await MiniKit.commandsAsync.sendTransaction({
-          transaction: [
-            {
-              address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
-              abi: ReviewABINew,
-              functionName: "submitReview",
-              args: [companyName, ratingArray, pinataHash],
-            },
-          ],
-        });
+      const deadline = Math.floor(
+        (Date.now() + 30 * 60 * 1000) / 1000,
+      ).toString();
+
+      const permitTransfer = {
+        permitted: {
+          token: worldchainSepoliaData.nativeCurrency.name,
+          amount: "0",
+        },
+        nonce: Date.now().toString(),
+        deadline,
+      };
+
+      const a = MiniKit.commands.sendTransaction({
+        transaction: [
+          {
+            address: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
+            abi: ReviewABINew,
+            functionName: "submitReview",
+            args: [companyName, ratingArray, pinataHash],
+          },
+        ],
+        // permit2: [
+        //   {
+        //     ...permitTransfer,
+        //     spender: "0x6b1D03eaFF92cADFD89853c6340CF753C33315aC",
+        //   },
+        // ],
+      });
+
+      console.log(a);
 
       return;
     } catch (error) {
@@ -88,7 +115,7 @@ export default function TestComponent() {
   }
 
   const client = createPublicClient({
-    chain: worldchainSepolia,
+    chain: worldchainSepoliaData,
     transport: http("https://worldchain-sepolia.g.alchemy.com/public"),
   }) as PublicClient;
 
@@ -101,12 +128,26 @@ export default function TestComponent() {
       transactionId,
     });
 
-  // const a = useAccount();
-  // console.log(a.address);
+  useEffect(() => {
+    if (!MiniKit.isInstalled()) {
+      return;
+    }
 
-  // const testSuccess = () => {
-  //   console.log("successssss");
-  // };
+    MiniKit.subscribe(
+      ResponseEvent.MiniAppSendTransaction,
+      async (payload: MiniAppSendTransactionPayload) => {
+        if (payload.status === "error") {
+          console.error("Error sending transaction", payload);
+        } else {
+          setTransactionId(payload.transaction_id);
+        }
+      },
+    );
+
+    return () => {
+      MiniKit.unsubscribe(ResponseEvent.MiniAppSendTransaction);
+    };
+  }, []);
 
   return (
     <>
